@@ -17,8 +17,22 @@ module Reviewr
 
     describe "#create_branch" do
       it "creates a new branch through git" do
-        Git.should_receive(:execute).with('git co -b branch_name')
+        Git.should_receive(:execute).with('git checkout -b branch_name')
         Git.create_branch("branch_name")
+      end
+    end
+
+    describe "#commit" do
+      it "creates an empty commit with the message" do
+        Git.should_receive(:execute).with('git commit --allow-empty -m "my message"')
+        Git.commit("my message")
+      end
+    end
+
+    describe "#user_email" do
+      it "looks up the user's email in the git config" do
+        Git.should_receive(:execute).with('git config user.email')
+        Git.user_email
       end
     end
   end

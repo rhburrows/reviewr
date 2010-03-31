@@ -3,10 +3,29 @@ require 'spec_helper'
 module Reviewr
   describe Request do
     describe "#call" do
+      before do
+        Git.stub!(:create_branch)
+        Git.stub!(:commit)
+        Git.stub!(:user_email)
+      end
+
       it "creates a git branch named 'review_sha'" do
         Git.stub!(:last_commit).and_return("1234567812345678123456781234567812345678")
         Git.should_receive(:create_branch).with("review_12345678")
         Request.new("blah").call
+      end
+
+      MSG= <<-END
+Code Review Request
+===================
+requested_by: email@site.com
+requested_from: reviewer@site.com
+      END
+
+      it "creates a commit with review metadata" do
+        Git.stub!(:user_email).and_return("email@site.com")
+        Git.should_receive(:commit).with(MSG)
+        Request.new("reviewer@site.com").call
       end
     end
   end

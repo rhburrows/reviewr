@@ -2,7 +2,7 @@ $LOAD_PATH << 'lib'
 require 'reviewr'
 
 class MockGit
-  attr_reader :commands
+  attr_accessor :commands
 
   def initialize
     @responses = {}

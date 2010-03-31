@@ -6,7 +6,15 @@ module Reviewr
       end
 
       def create_branch(branch_name)
-        execute("git co -b #{branch_name}")
+        execute("git checkout -b #{branch_name}")
+      end
+
+      def commit(msg)
+        execute("git commit --allow-empty -m \"#{msg}\"")
+      end
+
+      def user_email
+        execute('git config user.email')
       end
 
       def instance
