@@ -21,6 +21,16 @@ module Reviewr
         execute("git push origin #{branch_name}")
       end
 
+      def origin_location
+        r = execute("git remote show origin")
+        r && r.match(/URL: (.+)$/)[1]
+      end
+
+      def origin_master_commit
+        r = execute("git ls-remote origin refs/heads/master")
+        r && r.split(/\s+/)[0]
+      end
+
       def instance
         @instance ||= Git.new
       end

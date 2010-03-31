@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'pony'
+
 require 'reviewr/request'
 require 'reviewr/git'
 

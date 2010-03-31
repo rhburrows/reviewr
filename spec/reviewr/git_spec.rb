@@ -42,5 +42,36 @@ module Reviewr
         Git.push_branch("branch_name")
       end
     end
+
+    describe "#origin_location" do
+      it "runs show on the remote origin" do
+        Git.should_receive(:execute).with('git remote show origin')
+        Git.origin_location
+      end
+
+      SHOW = <<-END
+* remote origin
+  URL: git@github.com:rhburrows/reviewr.git
+  Tracked remote branch
+    master
+      END
+
+      it "parses out the URL" do
+        Git.stub!(:execute).and_return(SHOW)
+        Git.origin_location.should == "git@github.com:rhburrows/reviewr.git"
+      end
+    end
+
+    describe "#origin_master_commit" do
+      it "calls ls-remote on the origin master" do
+        Git.should_receive(:execute).with('git ls-remote origin refs/heads/master')
+        Git.origin_master_commit
+      end
+
+      it "returns only the sha" do
+        Git.stub!(:execute).and_return("12345678123456781234567812345678        refs/heads/master")
+        Git.origin_master_commit.should == "12345678123456781234567812345678"
+      end
+    end
   end
 end
