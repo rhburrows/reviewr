@@ -22,6 +22,10 @@ Then /^reviewr should create a commit with message:$/ do |msg|
   last_commit_msg.should == msg
 end
 
+Then /^reviewr should push "([^\"]*)" to origin$/ do |branch|
+  git_executed?("git push origin #{branch}").should be_true
+end
+
 def mock_git(call, result)
   Reviewr::Git.instance.register(call, result)
 end

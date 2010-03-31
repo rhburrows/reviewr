@@ -8,6 +8,7 @@ module Reviewr
       sha = Git.last_commit.slice(0,8)
       Git.create_branch("review_#{sha}")
       Git.commit(commit_msg)
+      Git.push_branch("review_#{sha}")
     end
 
     private

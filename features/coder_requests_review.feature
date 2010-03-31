@@ -23,3 +23,8 @@ Feature: Coder Requests Code Review
     requested_by: coder@site.com
     requested_from: reviewer@site.com
     """
+
+  Scenario: Push the review branch to the origin
+    Given the last commit was "12345678123456781234567812345678"
+    When I run "reviewr request reviewer@site.com"
+    Then reviewr should push "review_12345678" to origin

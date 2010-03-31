@@ -17,6 +17,10 @@ module Reviewr
         execute('git config user.email')
       end
 
+      def push_branch(branch_name)
+        execute("git push origin #{branch_name}")
+      end
+
       def instance
         @instance ||= Git.new
       end

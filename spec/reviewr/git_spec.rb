@@ -35,5 +35,12 @@ module Reviewr
         Git.user_email
       end
     end
+
+    describe "#push_branch" do
+      it "pushes the branch to origin" do
+        Git.should_receive(:execute).with('git push origin branch_name')
+        Git.push_branch("branch_name")
+      end
+    end
   end
 end
