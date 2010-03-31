@@ -13,8 +13,6 @@ module Reviewr
                 :body => email_body)
     end
 
-    private
-
     def review_sha
       @review_sha ||= Git.last_commit.slice(0, 8)
     end
@@ -32,35 +30,22 @@ module Reviewr
     end
 
     def compare_url
-      # git@github.com:rhburrows/reviewr.git
       repo = Git.origin_location.split(':')[1].gsub(/.git$/, "/compare")
       "http://github.com/#{repo}/#{master_sha}...#{review_sha}"
     end
 
     def commit_msg
-      <<-END
-Code Review Request
-===================
-requested_by: #{user_email}
-requested_from: #{@to_address}
-      END
+      read_template('commit_msg.erb')
     end
 
     def email_body
-      <<-END
-Hi,
+      read_template('request_email.erb')
+    end
 
-Could you please code review and comment on the following changes:
-
-#{compare_url}
-
-If you find the changes acceptable please run:
-  reviewr accept #{review_branch}
-If you think more work needs to be done please run:
-  reviewr reject #{review_branch}
-
-Thanks!
-      END
+    def read_template(name)
+      @templates ||= {}
+      @templates[name] ||= ERB.new(File.read(File.join(File.dirname(__FILE__), 'templates', name)))
+      @templates[name].result(binding)
     end
   end
 end

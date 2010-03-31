@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'pony'
+require 'erb'
 
 require 'reviewr/request'
 require 'reviewr/help'
