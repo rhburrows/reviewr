@@ -11,8 +11,8 @@ is the SHA of the current commit
 * Add a commit to the branch with metadata about the request
 (requester name/email etc). 
 * push the branch to the origin repository
-* generate a github review url from the current master head commit to
-the pushed review branch
+* generate a github review url from the current head to the pushed
+review branch
 * Send an email to `email@site.com` with a nice message and the url
 
 The reviewer then looks over the code on github and comments as
