@@ -31,7 +31,7 @@ Given /^the origin master commit is "([^\"]*)"$/ do |commit|
 end
 
 When /^I run "reviewr ([^\"]*)"$/ do |opts|
-  Reviewr.run(opts)
+  Reviewr.run(opts.split(' '))
 end
 
 Then /^reviewr should create a new branch called "([^\"]*)"$/ do |name|
