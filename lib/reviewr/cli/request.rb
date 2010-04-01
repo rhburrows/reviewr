@@ -4,8 +4,8 @@ require 'erb'
 module Reviewr
   module CLI
     class Request
-      def initialize(arguments)
-        @to_address = arguments.first
+      def initialize(to)
+        @to = to
       end
 
       def call
@@ -13,7 +13,7 @@ module Reviewr
         Git.commit(commit_msg)
         Git.push_branch(review_branch)
         Pony.mail(:from => user_email,
-                  :to   => @to_address,
+                  :to   => @to,
                   :body => email_body)
       end
 

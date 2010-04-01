@@ -11,7 +11,7 @@ module Reviewr
       def run
         case command
         when "request"
-          Request.new(args).call
+          Request.new(args.first).call
         else
           Help.new.call
         end

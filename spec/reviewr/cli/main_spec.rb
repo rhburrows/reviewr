@@ -22,7 +22,7 @@ module Reviewr::CLI
         end
 
         it "creates a Reviewr::Request with the opts" do
-          Request.should_receive(:new).with(["test@site.com"])
+          Request.should_receive(:new).with("test@site.com")
           Main.new(["request", "test@site.com"]).run
         end
 

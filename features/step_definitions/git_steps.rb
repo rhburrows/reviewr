@@ -4,6 +4,7 @@ Given /^I am in the working directory of a git repository$/ do
            'mock refs/heads/master')
   mock_git('git remote show origin',
            'URL: some:site')
+  Given "the last commit was \"aaaaaaaaaaa\""
 end
 
 Given /^my git email is "([^\"]*)"$/ do |email|
