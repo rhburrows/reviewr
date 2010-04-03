@@ -4,25 +4,25 @@ require 'erb'
 module Reviewr
   module CLI
     class Request
-      def initialize(to)
-        @to = to
+      def initialize(to, git = Git.instance)
+        @to, @git = to, git
       end
 
       def call
-        Git.instance.create_branch(review_branch)
-        Git.instance.commit(commit_msg)
-        Git.instance.push_branch(review_branch)
+        @git.create_branch(review_branch)
+        @git.commit(commit_msg)
+        @git.push_branch(review_branch)
         Pony.mail(:from => user_email,
                   :to   => @to,
                   :body => email_body)
       end
 
       def review_sha
-        @review_sha ||= Git.instance.last_commit.slice(0, 8)
+        @review_sha ||= @git.last_commit.slice(0, 8)
       end
 
       def master_sha
-        @master_sha ||= Git.instance.origin_master_commit.slice(0, 8)
+        @master_sha ||= @git.origin_master_commit.slice(0, 8)
       end
 
       def review_branch
@@ -30,11 +30,11 @@ module Reviewr
       end
 
       def user_email
-        @user_email ||= Git.instance.user_email
+        @user_email ||= @git.user_email
       end
 
       def compare_url
-        repo = Git.instance.origin_location.split(':')[1].gsub(/.git$/, "/compare")
+        repo = @git.origin_location.split(':')[1].gsub(/.git$/, "/compare")
         "http://github.com/#{repo}/#{master_sha}...#{review_sha}"
       end
 
