@@ -9,20 +9,20 @@ module Reviewr
       end
 
       def call
-        Git.create_branch(review_branch)
-        Git.commit(commit_msg)
-        Git.push_branch(review_branch)
+        Git.instance.create_branch(review_branch)
+        Git.instance.commit(commit_msg)
+        Git.instance.push_branch(review_branch)
         Pony.mail(:from => user_email,
                   :to   => @to,
                   :body => email_body)
       end
 
       def review_sha
-        @review_sha ||= Git.last_commit.slice(0, 8)
+        @review_sha ||= Git.instance.last_commit.slice(0, 8)
       end
 
       def master_sha
-        @master_sha ||= Git.origin_master_commit.slice(0, 8)
+        @master_sha ||= Git.instance.origin_master_commit.slice(0, 8)
       end
 
       def review_branch
@@ -30,11 +30,11 @@ module Reviewr
       end
 
       def user_email
-        @user_email ||= Git.user_email
+        @user_email ||= Git.instance.user_email
       end
 
       def compare_url
-        repo = Git.origin_location.split(':')[1].gsub(/.git$/, "/compare")
+        repo = Git.instance.origin_location.split(':')[1].gsub(/.git$/, "/compare")
         "http://github.com/#{repo}/#{master_sha}...#{review_sha}"
       end
 

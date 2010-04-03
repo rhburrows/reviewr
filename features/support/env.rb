@@ -1,7 +1,7 @@
 $LOAD_PATH << 'lib'
 require 'reviewr'
 
-class MockGit
+class MockGit < Reviewr::Git
   attr_accessor :commands
 
   def initialize
