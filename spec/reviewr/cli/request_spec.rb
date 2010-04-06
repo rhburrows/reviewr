@@ -5,12 +5,13 @@ module Reviewr
     describe Request do
       let(:git) { double("Git").as_null_object }
       let(:request) { Request.new("reviewer@site.com", git) }
+      let(:mailer) { double("Mailer").as_null_object }
 
       describe "#call" do
         before do
           git.stub!(:origin_location).and_return("asdf:fdas")
           git.stub!(:origin_master_commit).and_return("")
-          Pony.stub!(:mail)
+          Mailer.stub!(:new).and_return(mailer)
         end
 
         it "creates a git branch named 'review_sha'" do
@@ -39,14 +40,14 @@ requested_from: reviewer@site.com
         end
 
         context "sending email" do
-          it "sends it from the user's email" do
-            git.stub!(:user_email).and_return("email@site.com")
-            Pony.should_receive(:mail).with(hash_including(:from => "email@site.com"))
-            request.call
-          end
-
-          it "sends it to the to address" do
-            Pony.should_receive(:mail).with(hash_including(:to => "reviewer@site.com"))
+          it "creates a mailer with the mail configuration object" do
+            conf = double("configuration",
+                          :review_sha => '12345678',
+                          :master_sha => '87654321',
+                          :review_branch => 'review_12345678',
+                          :user_email => "requester@site.com")
+            Configuration.stub!(:new).and_return(conf)
+            Mailer.should_receive(:new).with(conf)
             request.call
           end
 
@@ -69,7 +70,7 @@ Thanks!
             git.stub!(:origin_location).and_return("git@github.com:rhburrows/reviewr.git")
             git.stub!(:origin_master_commit).and_return("87654321876543218765432187654321")
             git.stub!(:last_commit).and_return("12345678123456781234567812345678")
-            Pony.should_receive(:mail).with(hash_including(:body => BODY))
+            mailer.should_receive(:send).with(BODY)
             request.call
           end
         end

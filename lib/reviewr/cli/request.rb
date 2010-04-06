@@ -1,40 +1,33 @@
-require 'pony'
 require 'erb'
+require 'forwardable'
 
 module Reviewr
   module CLI
     class Request
-      def initialize(to, git = Git.instance)
-        @to, @git = to, git
+      extend Forwardable
+
+      attr_reader :git, :to, :config
+
+      def_delegators :config, :review_sha, :master_sha, :review_branch, :user_email
+
+      def initialize(to_or_config, git = Git.instance)
+        if to_or_config.is_a? Configuration
+          @config = to_or_config
+        else
+          @config = Configuration.new(to_or_config, git)
+          @to, @git = to_or_config, git
+        end
       end
 
       def call
-        @git.create_branch(review_branch)
-        @git.commit(commit_msg)
-        @git.push_branch(review_branch)
-        Pony.mail(:from => user_email,
-                  :to   => @to,
-                  :body => email_body)
-      end
-
-      def review_sha
-        @review_sha ||= @git.last_commit.slice(0, 8)
-      end
-
-      def master_sha
-        @master_sha ||= @git.origin_master_commit.slice(0, 8)
-      end
-
-      def review_branch
-        @review_branch ||= "review_#{review_sha}"
-      end
-
-      def user_email
-        @user_email ||= @git.user_email
+        git.create_branch(review_branch)
+        git.commit(commit_msg)
+        git.push_branch(review_branch)
+        Mailer.new(config).send(email_body)
       end
 
       def compare_url
-        repo = @git.origin_location.split(':')[1].gsub(/.git$/, "/compare")
+        repo = git.origin_location.split(':')[1].gsub(/.git$/, "/compare")
         "http://github.com/#{repo}/#{master_sha}...#{review_sha}"
       end
 
