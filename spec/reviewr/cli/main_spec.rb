@@ -2,6 +2,11 @@ require 'spec_helper'
 
 module Reviewr::CLI
   describe Main do
+    before do
+      Termios.stub(:tcgetattr).and_return(mock("Attr").as_null_object)
+      Termios.stub(:tcsetattr)
+    end
+
     describe "#initialize" do
       it "takes the first argument as the command name" do
         main = Main.new(["a", "b"])
@@ -23,12 +28,12 @@ module Reviewr::CLI
 
         it "creates a Reviewr::Request" do
           Request.should_receive(:new)
-          Main.new(["request", "test@site.com"]).run
+          new_main(["request", "test@site.com"]).run
         end
 
         it "calls #call on the request" do
           @request.should_receive(:call)
-          Main.new(["request"]).run
+          new_main(["request"]).run
         end
       end
 
@@ -40,13 +45,19 @@ module Reviewr::CLI
 
         it "creates a help command" do
           Help.should_receive(:new)
-          Main.new(["asdf"]).run
+          new_main(["asdf"]).run
         end
 
         it "calls #call on the help command" do
           @help.should_receive(:call)
-          Main.new(["ff"]).run
+          new_main(["ff"]).run
         end
+      end
+
+      def new_main(args)
+        m = Main.new(args)
+        m.stub(:prompt_for_user)
+        m
       end
     end
 
@@ -80,7 +91,25 @@ module Reviewr::CLI
 
       it "Sets the entered email password into the project" do
         main.project.should_receive(:email_password=).with("asdf")
-        input.stub(:gets).and_return("email", "asdf")
+        input.stub(:gets).and_return("email@s.com", "asdf")
+        main.prompt_for_user(input, output)
+      end
+
+      it "Asks for the user's email server with the default based on email" do
+        main.project.stub(:email_server).and_return("site.com")
+        output.should_receive(:puts).with("Email server (default site.com): ")
+        main.prompt_for_user(input, output)
+      end
+
+      it "Sets the entered email server into the project" do
+        main.project.should_receive(:email_server=).with("site.com")
+        input.stub(:gets).and_return("site.com")
+        main.prompt_for_user(input, output)
+      end
+
+      it "Uses the default email if an empty string is entered" do
+        main.project.should_not_receive(:email_server=)
+        input.stub(:gets).and_return("\n")
         main.prompt_for_user(input, output)
       end
     end

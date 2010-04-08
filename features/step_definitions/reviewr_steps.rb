@@ -29,5 +29,5 @@ def last_commit_msg
 end
 
 def reviewr(opts = ['command'])
-  @reviewr ||= Reviewr::CLI::Main.new(opts)
+  @reviewr ||= Reviewr::CLI::Main.new(opts, input, output)
 end

@@ -1,7 +1,7 @@
 class Input
   def initialize
     # default to entering nothing for each step
-    @messages = ["", ""]
+    @messages = (0..2).map{ '' }
   end
 
   def email=(email)
@@ -10,6 +10,10 @@ class Input
 
   def password=(password)
     @messages[1] = password
+  end
+
+  def email_server=(server)
+    @messages[2] = server
   end
 
   def gets

@@ -23,7 +23,8 @@ module Reviewr
     end
 
     def user_email
-      execute('git config user.email')
+      email = execute('git config user.email')
+      email && email.chomp
     end
 
     def push_branch(branch_name)

@@ -19,6 +19,13 @@ module Reviewr
       end
     end
 
+    describe "#email_server" do
+      it "pulls the domain from the user's email" do
+        project.user_email = "email@site.com"
+        project.email_server.should == "site.com"
+      end
+    end
+
     describe "#review_branch" do
       it "appends the review_sha to 'review_'" do
         project.stub!(:review_sha).and_return('12345678')

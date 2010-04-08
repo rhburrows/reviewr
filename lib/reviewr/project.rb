@@ -5,7 +5,7 @@ module Reviewr
     extend Forwardable
 
     attr_reader :from, :to, :git
-    attr_accessor :user_email, :email_password
+    attr_accessor :user_email, :email_password, :email_server
 
     def_delegators :git, :push_branch, :origin_location
 
@@ -39,6 +39,10 @@ module Reviewr
 
     def user_email
       @user_email ||= git.user_email
+    end
+
+    def email_server
+      @email_server ||= user_email.split('@')[1]
     end
   end
 end
