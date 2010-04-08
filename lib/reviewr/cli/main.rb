@@ -19,7 +19,8 @@ module Reviewr
           prompt_for_user(@input, @output)
           Request.new(project).call
         else
-          Help.new.call
+          #FIXME
+          Help.new.call(project.to)
         end
       end
 
