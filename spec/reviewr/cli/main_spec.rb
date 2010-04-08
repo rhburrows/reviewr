@@ -94,6 +94,24 @@ module Reviewr::CLI
         input.stub(:gets).and_return("email@s.com", "asdf")
         main.prompt_for_user(input, output)
       end
+
+      it "Asks for the remote repository name" do
+        output.should_receive(:print).
+               with("Remote repository (default origin): ")
+        main.prompt_for_user(input, output)
+      end
+
+      it "Sets the entered remote repository into the project" do
+        main.project.should_receive(:remote_repo=).with("remote_name")
+        input.stub(:gets).and_return("remote_name\n")
+        main.prompt_for_user(input, output)
+      end
+
+      it "Uses the default remote repository if an empty string is entered" do
+        main.project.should_not_receive(:remote_repo=)
+        input.stub(:gets).and_return("\n")
+        main.prompt_for_user(input, output)
+      end
     end
   end
 end

@@ -12,8 +12,8 @@ class Input
     @messages[1] = password
   end
 
-  def email_server=(server)
-    @messages[2] = server
+  def remote_repo=(repo)
+    @messages[2] = repo
   end
 
   def gets

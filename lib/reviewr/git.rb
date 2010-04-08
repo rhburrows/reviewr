@@ -10,6 +10,12 @@ module Reviewr
       end
     end
 
+    attr_writer :remote_repo
+
+    def remote_repo
+      @remote_repo ||= "origin"
+    end
+
     def last_commit
       execute('git show --pretty=format:"%H" HEAD').split("\n")[0]
     end
@@ -32,7 +38,7 @@ module Reviewr
     end
 
     def origin_location
-      r = execute("git remote show origin")
+      r = execute("git remote show #{remote_repo}")
       r && r.match(/URL: (.+)$/)[1]
     end
 

@@ -33,6 +33,10 @@ module Reviewr
         no_echo(input) do
           project.email_password = input.gets.chomp
         end
+
+        output.print("Remote repository (default origin): ")
+        repo = input.gets.chomp
+        project.remote_repo = repo unless repo.empty?
       end
 
       private

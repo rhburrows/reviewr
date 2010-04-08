@@ -32,3 +32,17 @@ Feature: Reviewr gets user information
     Given I enter "asdfasdf" for my email password
     When I run a reviewr command that requires email
     Then the email password should be set to "asdfasdf"
+
+  Scenario: Reviewr asks for the remote repo name
+    When I run a reviewr command that requires email
+    Then I should see "Remote repository (default origin): "
+
+  Scenario: Reviewr default the remote repository to origin
+    Given I use the default remote repository
+    When I run a reviewr command that requires email
+    Then the remote repository should be set to "origin"
+
+  Scenario: Reviewr takes the remote repo I enter
+    Given I enter "remote_name" for the remote repository
+    When I run a reviewr command that requires email
+    Then the remote repository should be set to "remote_name"

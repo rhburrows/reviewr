@@ -5,9 +5,11 @@ module Reviewr
     extend Forwardable
 
     attr_reader :to, :git, :email_server
-    attr_accessor :user_email, :email_password
+    attr_accessor :email_password
+    attr_writer :user_email
 
-    def_delegators :git, :push_branch, :origin_location
+    def_delegators :git, :push_branch, :origin_location, :remote_repo,
+                   :remote_repo=
 
     def initialize(to, git = Git.instance)
       @to, @git = to, git

@@ -46,7 +46,8 @@ module Reviewr
     end
 
     describe "#origin_location" do
-      it "runs show on the remote origin" do
+      it "runs show on the remote remote repo" do
+        git.remote_repo = "origin"
         git.should_receive(:execute).with('git remote show origin')
         git.origin_location
       end
