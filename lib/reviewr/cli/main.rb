@@ -24,18 +24,14 @@ module Reviewr
       end
 
       def prompt_for_user(input = STDIN, output = STDOUT)
-        output.puts("Email (default #{project.user_email}): ")
+        output.print("Email (default #{project.user_email}): ")
         email = input.gets.chomp
         project.user_email = email unless email.empty?
 
-        output.puts("Email password: ")
+        output.print("Email password: ")
         no_echo(input) do
           project.email_password = input.gets.chomp
         end
-
-        output.puts("Email server (default #{project.email_server}): ")
-        server = input.gets.chomp
-        project.email_server = server unless server.empty?
       end
 
       private

@@ -68,7 +68,7 @@ module Reviewr::CLI
 
       it "Asks for the user's email with the default user email from git" do
         Reviewr::Git.instance.stub(:user_email).and_return('e@s.com')
-        output.should_receive(:puts).with("Email (default e@s.com): ")
+        output.should_receive(:print).with("Email (default e@s.com): ")
         main.prompt_for_user(input, output)
       end
 
@@ -85,31 +85,13 @@ module Reviewr::CLI
       end
 
       it "Asks for the user's email password" do
-        output.should_receive(:puts).with("Email password: ")
+        output.should_receive(:print).with("Email password: ")
         main.prompt_for_user(input, output)
       end
 
       it "Sets the entered email password into the project" do
         main.project.should_receive(:email_password=).with("asdf")
         input.stub(:gets).and_return("email@s.com", "asdf")
-        main.prompt_for_user(input, output)
-      end
-
-      it "Asks for the user's email server with the default based on email" do
-        main.project.stub(:email_server).and_return("site.com")
-        output.should_receive(:puts).with("Email server (default site.com): ")
-        main.prompt_for_user(input, output)
-      end
-
-      it "Sets the entered email server into the project" do
-        main.project.should_receive(:email_server=).with("site.com")
-        input.stub(:gets).and_return("site.com")
-        main.prompt_for_user(input, output)
-      end
-
-      it "Uses the default email if an empty string is entered" do
-        main.project.should_not_receive(:email_server=)
-        input.stub(:gets).and_return("\n")
         main.prompt_for_user(input, output)
       end
     end

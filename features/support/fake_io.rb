@@ -30,7 +30,7 @@ class Output
     @messages ||= []
   end
 
-  def puts(message)
+  def print(message)
     messages << message
   end
 end

@@ -4,8 +4,8 @@ module Reviewr
   class Project
     extend Forwardable
 
-    attr_reader :to, :git
-    attr_accessor :user_email, :email_password, :email_server
+    attr_reader :to, :git, :email_server
+    attr_accessor :user_email, :email_password
 
     def_delegators :git, :push_branch, :origin_location
 

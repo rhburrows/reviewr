@@ -10,6 +10,7 @@ module Reviewr
       Pony.mail(:from => @project.user_email,
                 :to   => @project.to,
                 :body => body,
+                :subject => "Code review request from #{@project.user_email}",
                 :via  => :smtp,
                 :smtp => {
                   :host     => 'smtp.gmail.com',
