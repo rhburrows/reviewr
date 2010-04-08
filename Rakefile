@@ -37,5 +37,5 @@ end
 
 desc 'Push a the gem to gemcutter'
 task :release => :build do
-  system "gem push reviewr-#{Reviewr::VERSION}"
+  system "gem push reviewr-#{Reviewr::VERSION}.gem"
 end
