@@ -1,0 +1,16 @@
+LICENSE
+README.md
+History.txt
+Manifest.txt
+bin/reviewr
+lib/reviewr.rb
+lib/reviewr/cli.rb
+lib/reviewr/git.rb
+lib/reviewr/mailer.rb
+lib/reviewr/project.rb
+lib/reviewr/version.rb
+lib/reviewr/cli/help.rb
+lib/reviewr/cli/main.rb
+lib/reviewr/cli/request.rb
+lib/reviewr/templates/commit_msg.erb
+lib/reviewr/templates/request_email.erb

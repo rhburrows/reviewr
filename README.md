@@ -1,5 +1,32 @@
+# Reviewr: Simple code review
 
-# Ideas
+Reviewr is an application to simplify code review for projects using
+git and github.com for version control.
+
+# Installation
+    gem install reviewr
+
+# Requesting a code review
+    reviewr request <email>
+This will result in the following actions:
+
+* Create a code review branch
+* Create a commit with information about the code review request
+* Push the code review branch to the origin repository
+* Send an email to <email> requesting a code review of the branch
+  The email will include a link to Github's compare view for the
+  changes 
+
+## Limitations
+
+* Right now reviewr considers the origin/master the branch that the
+  reviewed code will be merged into when approved
+* Email can only be sent from a Gmail (or Google Apps for my domain)
+  address
+
+# TODO
+
+## Finish out the basic workflow
 
 General workflow goes something like this:
 
@@ -33,11 +60,3 @@ review_0f38ef31`. reviewr will:
 * Re-generate the github url for comparing to the current master
 * Send an email to the requester of the review saying the code has
 been rejected and to please see the comments on the linked page
-
-# Questions and problems
-
-* History of comments when be lost when commits are merged
-
-# Todo
-
-* Update this when complete to be a README not a ideas page

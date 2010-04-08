@@ -1,5 +1,8 @@
 require 'rubygems'
 
+$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
+require 'reviewr/version'
+
 begin
   require 'cucumber'
   require 'cucumber/rake/task'
@@ -25,4 +28,14 @@ rescue LoadError
   task :spec do
     abort 'Install rspec as a gem to run tests.'
   end
+end
+
+desc 'Build the reviewr gem'
+task :build do
+  system "gem build reviewr.gemspec"
+end
+
+desc 'Push a the gem to gemcutter'
+task :release => :build do
+  system "gem push reviewr-#{Reviewr::VERSION}"
 end
