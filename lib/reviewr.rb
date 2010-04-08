@@ -3,7 +3,7 @@ require 'rubygems'
 require 'reviewr/cli'
 require 'reviewr/git'
 require 'reviewr/mailer'
-require 'reviewr/configuration'
+require 'reviewr/project'
 
 module Reviewr
 end

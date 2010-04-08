@@ -4,13 +4,13 @@ module Reviewr::CLI
   describe Main do
     describe "#initialize" do
       it "takes the first argument as the command name" do
-        main = Main.new(["a", "b", "c"])
+        main = Main.new(["a", "b"])
         main.command.should == "a"
       end
 
-      it "considers the rest of the arguments the command arguments" do
-        main = Main.new(['a', 'b', 'c'])
-        main.args.should == ['b', 'c']
+      it "initializes the project with the second argument" do
+        Reviewr::Project.should_receive(:new).with("b")
+        main = Main.new(["a", "b"])
       end
     end
 
@@ -21,8 +21,8 @@ module Reviewr::CLI
           Request.stub!(:new).and_return(@request)
         end
 
-        it "creates a Reviewr::Request with the opts" do
-          Request.should_receive(:new).with("test@site.com")
+        it "creates a Reviewr::Request" do
+          Request.should_receive(:new)
           Main.new(["request", "test@site.com"]).run
         end
 
@@ -47,6 +47,41 @@ module Reviewr::CLI
           @help.should_receive(:call)
           Main.new(["ff"]).run
         end
+      end
+    end
+
+    describe "#prompt_for_user" do
+      let(:input){ double("Input").as_null_object }
+      let(:output){ double("Output").as_null_object }
+      let(:main) { Main.new(['a']) }
+
+      it "Asks for the user's email with the default user email from git" do
+        Reviewr::Git.instance.stub(:user_email).and_return('e@s.com')
+        output.should_receive(:puts).with("Email (default e@s.com): ")
+        main.prompt_for_user(input, output)
+      end
+
+      it "Sets the entered email into the project" do
+        main.project.should_receive(:user_email=).with("myemail@site.com")
+        input.stub(:gets).and_return("myemail@site.com")
+        main.prompt_for_user(input, output)
+      end
+
+      it "Uses the default email if an empty string is entered" do
+        main.project.should_not_receive(:user_email=)
+        input.stub(:gets).and_return("\n")
+        main.prompt_for_user(input, output)
+      end
+
+      it "Asks for the user's email password" do
+        output.should_receive(:puts).with("Email password: ")
+        main.prompt_for_user(input, output)
+      end
+
+      it "Sets the entered email password into the project" do
+        main.project.should_receive(:email_password=).with("asdf")
+        input.stub(:gets).and_return("email", "asdf")
+        main.prompt_for_user(input, output)
       end
     end
   end

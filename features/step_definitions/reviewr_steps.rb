@@ -1,6 +1,5 @@
 When /^I run "reviewr ([^\"]*)"$/ do |opts|
-  @reviewr = Reviewr::CLI::Main.new(opts.split(' '))
-  @reviewr.run
+  reviewr(opts.split(' ')).run
 end
 
 Then /^reviewr should create a new branch called "([^\"]*)"$/ do |name|
@@ -27,4 +26,8 @@ end
 def last_commit_msg
   ci = Reviewr::Git.instance.commands.find{ |c| c =~ /^git commit/ }
   ci.match(/^git commit .+ -m "(.*)"/m)[1].chomp
+end
+
+def reviewr(opts = ['command'])
+  @reviewr ||= Reviewr::CLI::Main.new(opts)
 end

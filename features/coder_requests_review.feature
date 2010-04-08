@@ -6,6 +6,7 @@ Feature: Coder Requests Code Review
 
   Background:
   Given I am in the working directory of a git repository
+  And assuming I enter valid email account information
 
   Scenario: Create Review Branch
     Given the last commit was "12345678123456781234567812345678"
