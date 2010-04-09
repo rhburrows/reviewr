@@ -39,3 +39,8 @@ desc 'Push a the gem to gemcutter'
 task :release => :build do
   system "gem push reviewr-#{Reviewr::VERSION}.gem"
 end
+
+desc 'Clean up old gems'
+task :clean do
+  system "rm *.gem"
+end

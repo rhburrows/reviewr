@@ -12,15 +12,13 @@ This will result in the following actions:
 
 * Create a code review branch
 * Create a commit with information about the code review request
-* Push the code review branch to the origin repository
+* Push the code review branch to the remote repository
 * Send an email to <email> requesting a code review of the branch
   The email will include a link to Github's compare view for the
   changes 
 
 ## Limitations
 
-* Right now reviewr considers the origin/master the branch that the
-  reviewed code will be merged into when approved
 * Email can only be sent from a Gmail (or Google Apps for my domain)
   address
 
