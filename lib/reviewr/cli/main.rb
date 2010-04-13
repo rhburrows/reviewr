@@ -1,5 +1,4 @@
 require 'termios'
-require 'ruby-debug'
 
 module Reviewr
   module CLI
