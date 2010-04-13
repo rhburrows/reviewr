@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
-  s.add_dependency "bundler"
   s.add_dependency "termios"
   s.add_dependency "pony"
 

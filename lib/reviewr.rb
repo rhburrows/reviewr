@@ -1,7 +1,5 @@
 require 'rubygems'
-require 'bundler'
 
-Bundler.setup
 require 'reviewr/cli'
 require 'reviewr/git'
 require 'reviewr/mailer'
