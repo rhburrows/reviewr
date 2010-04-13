@@ -1,3 +1,28 @@
+=== 0.1.2 / 2010-04-13
+
+* 2 Bug fix:
+
+  * Include necessary files in gem
+  * Update gem dependencies to include Bundler
+
+=== 0.1.1 / 2010-04-12
+
+* 1 Bug fix:
+
+  * Some git commands were stil using hardcoded 'origin' instead of
+    the remote repo name that the user specified
+
+=== 0.1.0 / 2010-04-12
+
+* 1 minor enhancement:
+
+  * Convert to use Bundler for dependency resolution
+
+* 2 Bug fixes:
+
+  * After running the review command the user is changed back to their
+    original branch
+  * Mailing errors are now handled
 
 === 0.0.2 / 2010-04-08
 

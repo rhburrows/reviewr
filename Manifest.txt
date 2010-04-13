@@ -1,5 +1,6 @@
 LICENSE
 README.md
+Gemfile
 History.txt
 Manifest.txt
 bin/reviewr
