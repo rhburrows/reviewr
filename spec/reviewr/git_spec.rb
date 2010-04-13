@@ -58,16 +58,17 @@ module Reviewr
     end
 
     describe "#push_branch" do
-      it "pushes the branch to origin" do
-        git.should_receive(:execute).with('git push origin branch_name')
+      it "pushes the branch to the remote repo" do
+        git.remote_repo = "remote"
+        git.should_receive(:execute).with('git push remote branch_name')
         git.push_branch("branch_name")
       end
     end
 
     describe "#origin_location" do
       it "runs show on the remote remote repo" do
-        git.remote_repo = "origin"
-        git.should_receive(:execute).with('git remote show origin')
+        git.remote_repo = "remote"
+        git.should_receive(:execute).with('git remote show remote')
         git.origin_location
       end
 
@@ -85,8 +86,9 @@ module Reviewr
     end
 
     describe "#origin_master_commit" do
-      it "calls ls-remote on the origin master" do
-        git.should_receive(:execute).with('git ls-remote origin refs/heads/master')
+      it "calls ls-remote on the remote master" do
+        git.remote_repo = 'remote'
+        git.should_receive(:execute).with('git ls-remote remote refs/heads/master')
         git.origin_master_commit
       end
 

@@ -43,7 +43,7 @@ module Reviewr
     end
 
     def push_branch(branch_name)
-      execute("git push origin #{branch_name}")
+      execute("git push #{remote_repo} #{branch_name}")
     end
 
     def origin_location
@@ -52,7 +52,7 @@ module Reviewr
     end
 
     def origin_master_commit
-      r = execute("git ls-remote origin refs/heads/master")
+      r = execute("git ls-remote #{remote_repo} refs/heads/master")
       r && r.split(/\s+/)[0]
     end
 
