@@ -28,6 +28,15 @@ module Reviewr
       execute("git commit --allow-empty -m \"#{msg}\"")
     end
 
+    def current_branch
+      m = execute("git branch").match(/^\* +(\w+)$/)
+      m && m[1]
+    end
+
+    def change_branch(branch_name)
+      execute("git checkout #{branch_name}")
+    end
+
     def user_email
       email = execute('git config user.email')
       email && email.chomp

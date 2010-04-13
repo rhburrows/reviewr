@@ -9,7 +9,7 @@ module Reviewr
     attr_writer :user_email
 
     def_delegators :git, :push_branch, :origin_location, :remote_repo,
-                   :remote_repo=
+                   :remote_repo=, :current_branch, :change_branch
 
     def initialize(to, git = Git.instance)
       @to, @git = to, git

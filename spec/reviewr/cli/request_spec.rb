@@ -33,6 +33,12 @@ module Reviewr
           mailer.should_receive(:send).with("email")
           request.call
         end
+
+        it "changes branches back to the original" do
+          project.stub!(:current_branch).and_return("original")
+          project.should_receive(:change_branch).with("original")
+          request.call
+        end
       end
 
       describe "#compare_url" do

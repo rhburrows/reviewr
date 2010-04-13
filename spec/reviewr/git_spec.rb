@@ -24,6 +24,25 @@ module Reviewr
       end
     end
 
+    describe "#current_branch" do
+      it "looks at the current branches" do
+        git.should_receive(:execute).with('git branch').and_return("")
+        git.current_branch
+      end
+
+      it "returns the branch with a '*' by its name" do
+        git.stub(:execute).and_return("one\n* two\nthree")
+        git.current_branch.should == "two"
+      end
+    end
+
+    describe "#change_branch" do
+      it "checks out the branch" do
+        git.should_receive(:execute).with('git checkout branch_name')
+        git.change_branch('branch_name')
+      end
+    end
+
     describe "#commit" do
       it "creates an empty commit with the message" do
         git.should_receive(:execute).with('git commit --allow-empty -m "my message"')

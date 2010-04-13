@@ -4,6 +4,8 @@ Given /^I am in the working directory of a git repository$/ do
            'mock refs/heads/master')
   mock_git('git remote show origin',
            'URL: some:site')
+  mock_git('git branch',
+           '* master')
   Given "the last commit was \"aaaaaaaaaaa\""
 end
 
