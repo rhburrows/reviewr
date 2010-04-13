@@ -2,6 +2,8 @@ require 'pony'
 
 module Reviewr
   class Mailer
+    attr_reader :project
+
     def initialize(project)
       @project = project
     end
@@ -21,6 +23,11 @@ module Reviewr
                   :auth     => :plain,
                   :domain   => @project.email_server
                 })
+      true
+    rescue => e
+      $stderr.puts "Error sending email:"
+      $stderr.puts e.inspect
+      false
     end
   end
 end
