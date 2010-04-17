@@ -3,14 +3,9 @@ require 'forwardable'
 
 module Reviewr
   module CLI
-    class Request
-      attr_reader :project
-
-      def initialize(project)
-        @project = project
-      end
-
+    class Request < Command
       def call
+        prompt_for_user
         original_branch = project.current_branch
         project.create_review_branch
         project.create_review_commit(commit_msg)

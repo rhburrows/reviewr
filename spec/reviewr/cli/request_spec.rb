@@ -5,11 +5,17 @@ module Reviewr
     describe Request do
       let(:project) { double("Project").as_null_object }
       let(:mailer) { double("Mailer").as_null_object }
-      let(:request) { Request.new(project) }
+      let(:request){ Request.new(project) }
 
       describe "#call" do
         before do
           Mailer.stub!(:new).and_return(mailer)
+          request.stub(:prompt_for_user)
+        end
+
+        it "prompts for user information" do
+          request.should_receive(:prompt_for_user)
+          request.call
         end
 
         it "creates a branch for review" do

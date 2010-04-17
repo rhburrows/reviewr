@@ -1,6 +1,6 @@
 module Reviewr
   module CLI
-    class Help
+    class Help < Command
       def call(command)
         if command.nil?
           usage

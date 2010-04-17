@@ -25,7 +25,10 @@ Given /^I enter "([^\"]*)" for the remote repository$/ do |repo|
 end
 
 When /^I run a reviewr command that requires email$/ do
-  project = reviewr.prompt_for_user(input, output)
+  command = reviewr.build_command
+  command.input = input
+  command.output = output
+  command.prompt_for_user
 end
 
 Then /^I should see "([^\"]*)"$/ do |msg|
