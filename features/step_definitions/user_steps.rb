@@ -52,5 +52,5 @@ Then /^the remote repository should be set to "([^\"]*)"$/ do |repo|
 end
 
 def project
-  reviewr.project
+  reviewr.c.project
 end

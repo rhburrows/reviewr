@@ -3,7 +3,7 @@ require 'spec_helper'
 module Reviewr
   describe Project do
     let(:git){ double("Git", :user_email => "email") }
-    let(:project){ Project.new("to@site.com", git) }
+    let(:project){ Project.new(git) }
 
     describe "#review_sha" do
       it "returns the first 8 characters of the last commit" do
@@ -30,6 +30,14 @@ module Reviewr
       it "appends the review_sha to 'review_'" do
         project.stub!(:review_sha).and_return('12345678')
         project.review_branch.should == 'review_12345678'
+      end
+    end
+
+    describe "#fetch_review_branch" do
+      it "fetches the branch with the name from #review_branch" do
+        project.stub(:review_branch).and_return('branch')
+        git.should_receive(:fetch).with('branch')
+        project.fetch_review_branch
       end
     end
 

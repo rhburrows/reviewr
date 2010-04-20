@@ -37,6 +37,10 @@ module Reviewr
       execute("git checkout #{branch_name}")
     end
 
+    def fetch(branch_name)
+      execute("git fetch #{remote_repo} #{branch_name}")
+    end
+
     def user_email
       email = execute('git config user.email')
       email && email.chomp

@@ -4,19 +4,23 @@ module Reviewr
   class Project
     extend Forwardable
 
-    attr_reader :to, :git, :email_server
-    attr_accessor :email_password
-    attr_writer :user_email
+    attr_reader :git, :email_server
+    attr_accessor :email_password, :to
+    attr_writer :user_email, :review_branch
 
     def_delegators :git, :push_branch, :origin_location, :remote_repo,
                    :remote_repo=, :current_branch, :change_branch
 
-    def initialize(to, git = Git.instance)
-      @to, @git = to, git
+    def initialize(git = Git.instance)
+      @git = git
     end
 
     def create_review_branch
       git.create_branch(review_branch)
+    end
+
+    def fetch_review_branch
+      git.fetch(review_branch)
     end
 
     def create_review_commit(msg)

@@ -1,12 +1,8 @@
 module Reviewr
   module CLI
     class Help < Command
-      def call(command)
-        if command.nil?
-          usage
-        else
-          request_help
-        end
+      def execute
+        usage
       end
 
       def usage

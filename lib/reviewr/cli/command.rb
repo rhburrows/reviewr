@@ -2,11 +2,15 @@ module Reviewr
   module CLI
     class Command
       attr_reader :project
-      attr_accessor :input, :output
+      attr_accessor :input, :output, :arguments
 
       def initialize(project, input = STDIN, output = STDOUT)
         @project = project
         @input, @output = input, output
+      end
+
+      def call
+        execute
       end
 
       def prompt_for_user

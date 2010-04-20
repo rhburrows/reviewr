@@ -4,7 +4,8 @@ require 'forwardable'
 module Reviewr
   module CLI
     class Request < Command
-      def call
+      def execute
+        project.to = arguments.first
         prompt_for_user
         original_branch = project.current_branch
         project.create_review_branch

@@ -3,12 +3,12 @@ require 'termios'
 module Reviewr
   module CLI
     class Main
-      attr_reader :command
-      attr_accessor :project
+      attr_reader :command, :c
+      attr_accessor :arguments
 
       def initialize(args, input = STDIN, output = STDOUT)
         @command = args.shift
-        @project = Project.new(args.shift)
+        @arguments = args
         @input, @output = input, output
       end
 
@@ -17,12 +17,19 @@ module Reviewr
       end
 
       def build_command
-        case command
-        when "request"
-          Request.new(project, @input, @output)
-        else
-          Help.new(project, @input, @output)
+        unless @c
+          case command
+          when "request"
+            @c = Request.new(Project.new, @input, @output)
+          when "accept"
+            @c = Accept.new(Project.new, @input, @output)
+          else
+            @c = Help.new(Project.new, @input, @output)
+          end
+
+          @c.arguments = arguments
         end
+        @c
       end
     end
   end

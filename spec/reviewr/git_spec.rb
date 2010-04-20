@@ -43,6 +43,14 @@ module Reviewr
       end
     end
 
+    describe "#fetch" do
+      it "fetches the branch from the remote repository" do
+        git.remote_repo = "remote"
+        git.should_receive(:execute).with('git fetch remote branch_name')
+        git.fetch('branch_name')
+      end
+    end
+
     describe "#commit" do
       it "creates an empty commit with the message" do
         git.should_receive(:execute).with('git commit --allow-empty -m "my message"')

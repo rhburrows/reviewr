@@ -11,6 +11,13 @@ module Reviewr
         before do
           Mailer.stub!(:new).and_return(mailer)
           request.stub(:prompt_for_user)
+          request.stub(:arguments).and_return([])
+        end
+
+        it "assigns the to address to the project" do
+          project.should_receive(:to=).with("blah")
+          request.stub(:arguments).and_return(["blah"])
+          request.call
         end
 
         it "prompts for user information" do

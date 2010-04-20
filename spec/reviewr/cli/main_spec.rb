@@ -8,9 +8,9 @@ module Reviewr::CLI
         main.command.should == "a"
       end
 
-      it "initializes the project with the second argument" do
-        Reviewr::Project.should_receive(:new).with("b")
-        main = Main.new(["a", "b"])
+      it "takes the rest of the arguments as the arguments" do
+        main = Main.new(["a", "b", "c"])
+        main.arguments.should == ["b", "c"]
       end
     end
 
@@ -37,14 +37,44 @@ module Reviewr::CLI
       context "command name is 'request'"do
         let(:main) { Main.new(['request']) }
 
-        it "creates a Reviewr::Request" do
+        before do
+          @request = double("Request").as_null_object
+          Request.stub(:new).and_return(@request)
+        end
+
+        it "creates a Reviewr::CLI::Request" do
           Request.should_receive(:new)
+          main.build_command
+        end
+
+        it "passes the arguments to the request's arguments=" do
+          @request.should_receive(:arguments=).with([1,2])
+          main.stub(:arguments).and_return([1,2])
+          main.build_command
+        end
+      end
+
+      context "command name is 'accept'" do
+        let(:main) { Main.new(['accept']) }
+
+        before do
+          @accept = double("Accept").as_null_object
+          Accept.stub(:new).and_return(@accept)
+        end
+
+        it "creates a Reviewr::CLI::Accept" do
+          Accept.should_receive(:new)
           main.build_command
         end
       end
 
       context "when passed a non-existant command" do
         let(:main) { Main.new(['blah']) }
+
+        before do
+          @help = double("help").as_null_object
+          Help.stub(:new).and_return(@help)
+        end
 
         it "creates a help command" do
           Help.should_receive(:new)

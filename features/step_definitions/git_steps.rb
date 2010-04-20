@@ -33,6 +33,10 @@ Given /^the origin master commit is "([^\"]*)"$/ do |commit|
            "#{commit}       refs/heads/master")
 end
 
+Then /^reviewr should fetch the branch "([^\"]*)"$/ do |branch|
+  git_executed?("git fetch origin #{branch}").should be_true
+end
+
 def mock_git(call, result)
   Reviewr::Git.instance.register(call, result)
 end
