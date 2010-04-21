@@ -33,6 +33,15 @@ module Reviewr
       end
     end
 
+    describe "#rebase_review" do
+      it "rebases the review branch on the remote master" do
+        git.stub(:remote_repo).and_return('remote')
+        git.should_receive(:rebase).with('remote/master', 'review')
+        project.stub(:review_branch).and_return('review')
+        project.rebase_review
+      end
+    end
+
     describe "#fetch_review_branch" do
       it "fetches the branch with the name from #review_branch" do
         project.stub(:review_branch).and_return('branch')
@@ -41,10 +50,29 @@ module Reviewr
       end
     end
 
+    describe "#fetch_master" do
+      it "fetches the master" do
+        git.should_receive(:fetch).with('master')
+        project.fetch_master
+      end
+    end
+
     describe "#create_review_branch" do
       it "creates the branch with the name from #review_branch" do
         project.stub(:review_branch).and_return('branch')
-        git.should_receive(:create_branch).with('branch')
+        git.should_receive(:create_branch).with('branch', anything)
+        project.create_review_branch
+      end
+
+      it "bases the branch on the parameter if specified" do
+        project.stub(:review_branch)
+        git.should_receive(:create_branch).with(anything, 'base')
+        project.create_review_branch('base')
+      end
+
+      it "bases the branch on the master by default" do
+        project.stub(:review_branch)
+        git.should_receive(:create_branch).with(anything, 'master')
         project.create_review_branch
       end
     end

@@ -3,7 +3,7 @@ When /^I run "reviewr ([^\"]*)"$/ do |opts|
 end
 
 Then /^reviewr should create a new branch called "([^\"]*)"$/ do |name|
-  git_executed?("git checkout -b #{name}").should be_true
+  git_executed?("git branch #{name} master").should be_true
 end
 
 Then /^reviewr should create a commit with message:$/ do |msg|
@@ -17,6 +17,10 @@ end
 Then /^reviewr should send an email to "([^\"]*)" with body:$/ do |email, body|
   Pony.sent[:to].should == email
   Pony.sent[:body].should == body
+end
+
+Then /^reviewr should abort the acceptance$/ do
+  git_executed?("git rebase --abort").should be_true
 end
 
 def git_executed?(cmd)

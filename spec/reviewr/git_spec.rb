@@ -4,6 +4,10 @@ module Reviewr
   describe Git do
     let(:git) { Git.new }
 
+    before do
+      git.stub(:execute)
+    end
+
     describe "#last_commit" do
       it "shells out to git to the get the hash of the last commit" do
         git.stub!(:execute).and_return("")
@@ -19,8 +23,36 @@ module Reviewr
 
     describe "#create_branch" do
       it "creates a new branch through git" do
-        git.should_receive(:execute).with('git checkout -b branch_name')
-        git.create_branch("branch_name")
+        git.should_receive(:execute).with('git branch branch_name base')
+        git.create_branch("branch_name", "base")
+      end
+
+      it "checks out the newly created branch" do
+        git.should_receive(:execute).with('git checkout branch_name')
+        git.create_branch('branch_name', 'base')
+      end
+    end
+
+    describe "#rebase" do
+      it "runs rebase through git" do
+        git.should_receive(:execute).with('git rebase base branch')
+        git.rebase('base', 'branch')
+      end
+
+      it "returns true if the rebase happens cleanly" do
+        git.stub(:execute).and_return("")
+        git.rebase('base', 'branch').should be_true
+      end
+
+      it "returns false if the rebase has a conflict" do
+        git.stub(:execute).and_return("CONFLICT")
+        git.rebase('base', 'branch').should_not be_true
+      end
+
+      it "aborts the rebase if there is a conflict" do
+        git.stub(:execute).and_return("CONFLICT")
+        git.should_receive(:execute).with('git rebase --abort')
+        git.rebase('base', 'branch')
       end
     end
 

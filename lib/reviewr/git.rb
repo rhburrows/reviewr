@@ -20,8 +20,18 @@ module Reviewr
       execute('git show --pretty=format:"%H" HEAD').split("\n")[0]
     end
 
-    def create_branch(branch_name)
-      execute("git checkout -b #{branch_name}")
+    def rebase(base, branch)
+      conflict = execute("git rebase #{base} #{branch}").to_s.
+        include?("CONFLICT")
+      if conflict
+        execute('git rebase --abort')
+      end
+      !conflict
+    end
+
+    def create_branch(branch_name, base)
+      execute("git branch #{branch_name} #{base}")
+      execute("git checkout #{branch_name}")
     end
 
     def commit(msg)

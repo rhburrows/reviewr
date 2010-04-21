@@ -11,3 +11,9 @@ Feature: Code Reviewer accepts changes
   Scenario: Reviewr fetches remote branch
     When I run "reviewr accept review_12345678"
     Then reviewr should fetch the branch "review_12345678"
+
+  Scenario: Reviewr rejects changes if they don't apply cleanly
+    Given remote branch "review_12345678" won't apply cleanly
+    When I run "reviewr accept review_12345678"
+    Then reviewr should abort the acceptance
+    And I should see "Branch 'review_12345678' won't merge cleanly"

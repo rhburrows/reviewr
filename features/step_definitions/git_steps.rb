@@ -33,6 +33,20 @@ Given /^the origin master commit is "([^\"]*)"$/ do |commit|
            "#{commit}       refs/heads/master")
 end
 
+Given /^remote branch "([^\"]*)" won't apply cleanly$/ do |branch|
+  mock_git("git rebase origin/master #{branch}",
+           [
+            "CONFLICT (content): Merge conflict in blah.txt",
+            "Failed to merge in the changes.",
+            "Patch failed at 0002.",
+            "",
+            "",
+            "When you have resolved this problem run \"git rebase --continue\".",
+            "If you would prefer to skip this patch, instead run \"git rebase --skip\".",
+            "To restore the original branch and stop rebasing run \"git rebase --abort\"."
+           ].join("\n"))
+end
+
 Then /^reviewr should fetch the branch "([^\"]*)"$/ do |branch|
   git_executed?("git fetch origin #{branch}").should be_true
 end

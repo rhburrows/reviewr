@@ -15,12 +15,20 @@ module Reviewr
       @git = git
     end
 
-    def create_review_branch
-      git.create_branch(review_branch)
+    def create_review_branch(base = 'master')
+      git.create_branch(review_branch, base)
+    end
+
+    def rebase_review
+      git.rebase("#{remote_repo}/master", review_branch)
     end
 
     def fetch_review_branch
       git.fetch(review_branch)
+    end
+
+    def fetch_master
+      git.fetch('master')
     end
 
     def create_review_commit(msg)

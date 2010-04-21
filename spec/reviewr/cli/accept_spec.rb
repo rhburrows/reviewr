@@ -10,6 +10,7 @@ module Reviewr
         before do
           accept.stub(:prompt_for_user)
           accept.arguments = []
+          accept.output = double("Output").as_null_object
         end
 
         it "sets the review_branch" do
@@ -25,6 +26,22 @@ module Reviewr
 
         it "fetches the remote branch" do
           project.should_receive(:fetch_review_branch)
+          accept.call
+        end
+
+        it "fetches the remote master" do
+          project.should_receive(:fetch_master)
+          accept.call
+        end
+
+        it "creates a working branch for the reviewed code" do
+          project.should_receive(:create_review_branch).with("origin/review")
+          accept.arguments = ["review"]
+          accept.call
+        end
+
+        it "rebases the review branch on the master branch" do
+          project.should_receive(:rebase_review)
           accept.call
         end
       end
