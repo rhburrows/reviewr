@@ -8,7 +8,7 @@ module Reviewr
         project.to = arguments.first
         prompt_for_user
         original_branch = project.current_branch
-        project.create_review_branch
+        project.create_review_branch(original_branch)
         project.create_review_commit(commit_msg)
         project.push_review_branch
         Mailer.new(project).send(email_body)
