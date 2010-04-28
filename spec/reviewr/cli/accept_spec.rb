@@ -45,15 +45,27 @@ module Reviewr
           accept.call
         end
 
-        it "changes back to the original git branch" do
-          project.stub(:current_branch).and_return('master')
-          project.should_receive(:change_branch).with('master')
-          accept.call
-        end
+        context "rebase is successful" do
+          before do
+            project.stub(:rebase_review).and_return(true)
+          end
 
-        it "merge in the extra commits from the review branch" do
-          project.should_receive(:merge_commits)
-          accept.call
+          it "changes back to the original git branch" do
+            project.stub(:current_branch).and_return('master')
+            project.should_receive(:change_branch).with('master')
+            accept.call
+          end
+
+          it "merges in the extra commits from the review branch" do
+            project.should_receive(:merge_commits)
+            accept.call
+          end
+
+          it "pushes the merged branch to the remote" do
+            project.stub(:current_branch).and_return('current')
+            project.should_receive(:push_branch).with("current")
+            accept.call
+          end
         end
       end
     end

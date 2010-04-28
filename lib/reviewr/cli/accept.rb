@@ -9,11 +9,14 @@ module Reviewr
         project.fetch_review_branch
         project.fetch_master
         project.create_review_branch("origin/#{arguments.first}")
+
         unless project.rebase_review
           output.print "Branch '#{arguments.first}' won't merge cleanly"
+        else
+          project.change_branch(merge_branch)
+          project.merge_commits
+          project.push_branch(merge_branch)
         end
-        project.change_branch(merge_branch)
-        project.merge_commits
       end
     end
   end
