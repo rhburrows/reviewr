@@ -29,6 +29,15 @@ module Reviewr
         project.remote_repo = repo unless repo.empty?
       end
 
+      def read_template(name)
+        @templates ||= {}
+        @templates[name] ||= ERB.new(File.read(File.join(File.dirname(__FILE__),
+                                                         '..',
+                                                         'templates',
+                                                         name)))
+        @templates[name].result(binding)
+      end
+
       private
 
       def no_echo(input)

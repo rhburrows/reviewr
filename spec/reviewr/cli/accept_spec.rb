@@ -5,9 +5,11 @@ module Reviewr
     describe Accept do
       let(:project){ double("Project").as_null_object }
       let(:accept){ Accept.new(project) }
+      let(:mailer){ double("Mailer").as_null_object }
 
       describe "#call" do
         before do
+          Mailer.stub(:new).and_return(mailer)
           accept.stub(:prompt_for_user)
           accept.arguments = []
           accept.output = double("Output").as_null_object
@@ -71,6 +73,34 @@ module Reviewr
             project.should_receive(:delete_remote_review_branch)
             accept.call
           end
+
+          it "sets the to address to the review requester's" do
+            project.stub(:requester_email).and_return("coder@site.com")
+            project.should_receive(:to=).with("coder@site.com")
+            accept.call
+          end
+
+          it "sends an email to the review requester" do
+            accept.stub(:email_body).and_return("email")
+            mailer.should_receive(:send).with("email")
+            accept.call
+          end
+        end
+      end
+
+      describe "#email_body" do
+        THE_BODY= <<-END
+Hi,
+
+I have reviewed your changes for branch review_12345678 and decided to
+merge them in.
+
+Thanks!
+        END
+
+        it "generates the email body based on the project" do
+          project.stub(:review_branch).and_return("review_12345678")
+          accept.email_body.should == THE_BODY
         end
       end
     end

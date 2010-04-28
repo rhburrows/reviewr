@@ -13,11 +13,20 @@ module Reviewr
         unless project.rebase_review
           output.print "Branch '#{arguments.first}' won't merge cleanly"
         else
+          # This must be run while on the review branch
+          project.to = project.requester_email
+
           project.change_branch(merge_branch)
           project.merge_commits
           project.push_branch(merge_branch)
           project.delete_remote_review_branch
+
+          Mailer.new(project).send(email_body)
         end
+      end
+
+      def email_body
+        read_template('accept_email.erb')
       end
     end
   end

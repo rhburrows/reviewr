@@ -146,5 +146,12 @@ module Reviewr
         git.cherry_pick('commit')
       end
     end
+
+    describe "#log" do
+      it "calls log with n = the number passed" do
+        git.should_receive(:execute).with('git log -n 1')
+        git.log(1)
+      end
+    end
   end
 end

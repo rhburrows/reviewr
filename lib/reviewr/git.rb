@@ -77,6 +77,10 @@ module Reviewr
       execute("git cherry-pick #{commit}")
     end
 
+    def log(n)
+      execute("git log -n #{n}")
+    end
+
     def execute(cmd)
       `#{cmd}`
     end

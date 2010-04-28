@@ -36,3 +36,22 @@ Feature: Code Reviewer accepts changes
     And I am on branch "master"
     When I run "reviewr accept review_12345678"
     Then reviewr should delete origin branch "review_12345678"
+
+  Scenario: Reviewr sends an email saying the branch has been merged
+    Given remote branch "review_12345678" will apply cleanly
+    And the review was requested by "coder@site.com"
+    And my git email is "reviewer@site.com"
+    When I run "reviewr accept review_12345678"
+    Then reviewr should send an email to "coder@site.com" with body:
+    """
+    Hi,
+
+    I have reviewed your changes for branch review_12345678 and decided to
+    merge them in.
+
+    Thanks!
+
+    """
+
+  Scenario: Reviewr deletes the local working copy of the review branch
+

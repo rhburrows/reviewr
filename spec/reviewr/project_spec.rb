@@ -119,5 +119,25 @@ module Reviewr
         project.delete_remote_review_branch
       end
     end
+
+    describe "#requester_email" do
+      it "reads the last commit message from git" do
+        git.should_receive(:log).with(1)
+        project.requester_email
+      end
+
+      it "parses out the requester email and returns it" do
+        git.stub(:log).and_return([ "commit 1234567891234567823467",
+                                    "Author: Cody McCoder",
+                                    "Date:   Tue Apr 27 22:35:55 2010 -0700",
+                                    "",
+                                    "Code Review Request",
+                                    "===================",
+                                    "requested_by: coder@site.com",
+                                    "requested_from: reviewer@site.com"
+                                  ].join("\n"))
+        project.requester_email.should == "coder@site.com"
+      end
+    end
   end
 end

@@ -68,5 +68,13 @@ module Reviewr
     def delete_remote_review_branch
       git.push_branch(":#{review_branch}")
     end
+
+    def requester_email
+      msg = git.log(1)
+      if msg
+        m = msg.match(/^requested_by: ([^\s]+)/)
+        m && m[1]
+      end
+    end
   end
 end

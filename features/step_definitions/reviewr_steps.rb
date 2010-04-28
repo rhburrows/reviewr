@@ -1,3 +1,16 @@
+Given /^the review was requested by "([^\"]*)"$/ do |email|
+  mock_git('git log -n 1',
+           [ "commit 1234567891234567823467",
+             "Author: Cody McCoder",
+             "Date:   Tue Apr 27 22:35:55 2010 -0700",
+             "",
+             "Code Review Request",
+             "===================",
+             "requested_by: coder@site.com",
+             "requested_from: reviewer@site.com"
+           ].join("\n"))
+end
+
 When /^I run "reviewr ([^\"]*)"$/ do |opts|
   reviewr(opts.split(' ')).run
 end

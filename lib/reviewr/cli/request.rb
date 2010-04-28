@@ -27,17 +27,6 @@ module Reviewr
       def email_body
         read_template('request_email.erb')
       end
-
-      private
-
-      def read_template(name)
-        @templates ||= {}
-        @templates[name] ||= ERB.new(File.read(File.join(File.dirname(__FILE__),
-                                                         '..',
-                                                         'templates',
-                                                         name)))
-        @templates[name].result(binding)
-      end
     end
   end
 end
