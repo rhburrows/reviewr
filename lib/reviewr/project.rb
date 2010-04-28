@@ -17,6 +17,7 @@ module Reviewr
 
     def create_review_branch(base = 'master')
       git.create_branch(review_branch, base)
+      git.change_branch(review_branch)
     end
 
     def rebase_review

@@ -58,6 +58,11 @@ module Reviewr
     end
 
     describe "#create_review_branch" do
+      before do
+        git.stub(:create_branch)
+        git.stub(:change_branch)
+      end
+
       it "creates the branch with the name from #review_branch" do
         project.stub(:review_branch).and_return('branch')
         git.should_receive(:create_branch).with('branch', anything)
@@ -73,6 +78,12 @@ module Reviewr
       it "bases the branch on the master by default" do
         project.stub(:review_branch)
         git.should_receive(:create_branch).with(anything, 'master')
+        project.create_review_branch
+      end
+
+      it "checks out the new branch" do
+        project.stub(:review_branch).and_return("review")
+        git.should_receive(:change_branch).with("review")
         project.create_review_branch
       end
     end
