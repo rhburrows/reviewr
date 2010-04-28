@@ -58,5 +58,11 @@ module Reviewr
     def email_server
       @email_server ||= user_email.split('@')[1]
     end
+
+    def merge_commits
+      git.cherry(current_branch, review_branch).split(/\n/).each do |line|
+        git.cherry_pick(line.split(/\s/)[1])
+      end
+    end
   end
 end

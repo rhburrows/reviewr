@@ -23,6 +23,10 @@ Then /^reviewr should abort the acceptance$/ do
   git_executed?("git rebase --abort").should be_true
 end
 
+Then /^reviewr should cherry\-pick commit "([^\"]*)"$/ do |commit|
+  git_executed?("git cherry-pick #{commit}").should be_true
+end
+
 def git_executed?(cmd)
   Reviewr::Git.instance.commands.include?(cmd)
 end

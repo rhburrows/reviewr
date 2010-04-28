@@ -4,9 +4,13 @@ Given /^I am in the working directory of a git repository$/ do
            'mock refs/heads/master')
   mock_git('git remote show origin',
            'URL: some:site')
-  mock_git('git branch',
-           '* master')
+  Given "I am on branch \"master\""
   Given "the last commit was \"aaaaaaaaaaa\""
+end
+
+Given /^I am on branch "([^\"]*)"$/ do |branch|
+  mock_git('git branch',
+           "* #{branch}")
 end
 
 Given /^my git email is "([^\"]*)"$/ do |email|
@@ -45,6 +49,20 @@ Given /^remote branch "([^\"]*)" won't apply cleanly$/ do |branch|
             "If you would prefer to skip this patch, instead run \"git rebase --skip\".",
             "To restore the original branch and stop rebasing run \"git rebase --abort\"."
            ].join("\n"))
+end
+
+Given /^remote branch "([^\"]*)" will apply cleanly$/ do |branch|
+  mock_git("git rebase origin/master #{branch}",
+           [
+            "First, rewinding head to replay your work on top of it...",
+            "HEAD is now at 12345679",
+            "Applying patch"
+           ].join("\n"))
+end
+
+Given /^branch "([^\"]*)" has commit "([^\"]*)" beyond master$/ do |branch, commit|
+  mock_git("git cherry master #{branch}",
+           "+ #{commit}")
 end
 
 Then /^reviewr should fetch the branch "([^\"]*)"$/ do |branch|

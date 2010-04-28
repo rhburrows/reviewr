@@ -26,11 +26,6 @@ module Reviewr
         git.should_receive(:execute).with('git branch branch_name base')
         git.create_branch("branch_name", "base")
       end
-
-      it "checks out the newly created branch" do
-        git.should_receive(:execute).with('git checkout branch_name')
-        git.create_branch('branch_name', 'base')
-      end
     end
 
     describe "#rebase" do
@@ -135,6 +130,20 @@ module Reviewr
       it "returns only the sha" do
         git.stub!(:execute).and_return("12345678123456781234567812345678        refs/heads/master")
         git.origin_master_commit.should == "12345678123456781234567812345678"
+      end
+    end
+
+    describe "#cherry" do
+      it "calls cherry between the passed branches" do
+        git.should_receive(:execute).with('git cherry from to')
+        git.cherry('from', 'to')
+      end
+    end
+
+    describe "#cherry_pick" do
+      it "calls cherry-pick with the passed commit" do
+        git.should_receive(:execute).with('git cherry-pick commit')
+        git.cherry_pick('commit')
       end
     end
   end

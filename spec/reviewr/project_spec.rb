@@ -91,5 +91,25 @@ module Reviewr
         project.create_review_commit('commit msg')
       end
     end
+
+    describe "#merge_commits" do
+      before do
+        project.stub(:current_branch).and_return('master')
+        project.stub(:review_branch).and_return('branch')
+        git.stub(:cherry).and_return("")
+      end
+
+      it "lists the commit difference between the branches" do
+        git.should_receive(:cherry).with('master', 'branch')
+        project.merge_commits
+      end
+
+      it "cherry-picks each new commit" do
+        git.stub(:cherry).and_return("+ 1234\n+ 5432")
+        git.should_receive(:cherry_pick).with("1234")
+        git.should_receive(:cherry_pick).with("5432")
+        project.merge_commits
+      end
+    end
   end
 end

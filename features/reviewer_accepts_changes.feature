@@ -17,3 +17,10 @@ Feature: Code Reviewer accepts changes
     When I run "reviewr accept review_12345678"
     Then reviewr should abort the acceptance
     And I should see "Branch 'review_12345678' won't merge cleanly"
+
+  Scenario: Reviewr cherry-picks commits if they apply cleanly
+    Given remote branch "review_12345678" will apply cleanly
+    And I am on branch "master"
+    And branch "review_12345678" has commit "12345678123456781234567812345678" beyond master
+    When I run "reviewr accept review_12345678"
+    Then reviewr should cherry-pick commit "12345678123456781234567812345678"

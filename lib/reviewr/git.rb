@@ -31,7 +31,6 @@ module Reviewr
 
     def create_branch(branch_name, base)
       execute("git branch #{branch_name} #{base}")
-      execute("git checkout #{branch_name}")
     end
 
     def commit(msg)
@@ -68,6 +67,14 @@ module Reviewr
     def origin_master_commit
       r = execute("git ls-remote #{remote_repo} refs/heads/master")
       r && r.split(/\s+/)[0]
+    end
+
+    def cherry(from, to)
+      execute("git cherry #{from} #{to}")
+    end
+
+    def cherry_pick(commit)
+      execute("git cherry-pick #{commit}")
     end
 
     def execute(cmd)
