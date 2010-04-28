@@ -15,7 +15,19 @@ This will result in the following actions:
 * Push the code review branch to the remote repository
 * Send an email to <email> requesting a code review of the branch
   The email will include a link to Github's compare view for the
-  changes 
+  changes
+
+# Accepting changes from a code review
+    reviewr accept <branch_name>
+This will result in the following actions:
+
+* Create a branch for the reviewed code
+* Rebase the reviewed code on the current branch
+* Merge in the commits
+* Push the merged branch
+* Delete the code review branch from the remote repo
+* Send an email to the requester of the review saying the changes have been
+  merged
 
 ## Limitations
 
