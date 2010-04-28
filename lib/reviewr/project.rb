@@ -64,5 +64,9 @@ module Reviewr
         git.cherry_pick(line.split(/\s/)[1])
       end
     end
+
+    def delete_remote_review_branch
+      git.push_branch(":#{review_branch}")
+    end
   end
 end

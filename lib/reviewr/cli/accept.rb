@@ -16,6 +16,7 @@ module Reviewr
           project.change_branch(merge_branch)
           project.merge_commits
           project.push_branch(merge_branch)
+          project.delete_remote_review_branch
         end
       end
     end

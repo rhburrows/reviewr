@@ -30,3 +30,9 @@ Feature: Code Reviewer accepts changes
     And I am on branch "master"
     When I run "reviewr accept review_12345678"
     Then reviewr should push "master" to origin
+
+  Scenario: Reviewr deletes the code review branch
+    Given remote branch "review_12345678" will apply cleanly
+    And I am on branch "master"
+    When I run "reviewr accept review_12345678"
+    Then reviewr should delete origin branch "review_12345678"

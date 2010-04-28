@@ -111,5 +111,13 @@ module Reviewr
         project.merge_commits
       end
     end
+
+    describe "#delete_remote_review_branch" do
+      it "pushes nothing over the remote review branch" do
+        git.should_receive(:push_branch).with(':branch_name')
+        project.stub(:review_branch).and_return('branch_name')
+        project.delete_remote_review_branch
+      end
+    end
   end
 end

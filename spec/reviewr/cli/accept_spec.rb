@@ -66,6 +66,11 @@ module Reviewr
             project.should_receive(:push_branch).with("current")
             accept.call
           end
+
+          it "deletes the reviewed branch from the remote" do
+            project.should_receive(:delete_remote_review_branch)
+            accept.call
+          end
         end
       end
     end
