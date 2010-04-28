@@ -37,7 +37,7 @@ Then /^reviewr should abort the acceptance$/ do
 end
 
 Then /^reviewr should cherry\-pick commit "([^\"]*)"$/ do |commit|
-  git_executed?("git cherry-pick #{commit}").should be_true
+  git_executed?("git cherry-pick -s #{commit}").should be_true
 end
 
 Then /^reviewr should delete origin branch "([^\"]*)"$/ do |branch|

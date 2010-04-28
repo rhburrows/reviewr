@@ -38,7 +38,7 @@ Given /^the origin master commit is "([^\"]*)"$/ do |commit|
 end
 
 Given /^remote branch "([^\"]*)" won't apply cleanly$/ do |branch|
-  mock_git("git rebase origin/master #{branch}",
+  mock_git("git rebase master #{branch}",
            [
             "CONFLICT (content): Merge conflict in blah.txt",
             "Failed to merge in the changes.",
@@ -52,7 +52,7 @@ Given /^remote branch "([^\"]*)" won't apply cleanly$/ do |branch|
 end
 
 Given /^remote branch "([^\"]*)" will apply cleanly$/ do |branch|
-  mock_git("git rebase origin/master #{branch}",
+  mock_git("git rebase master #{branch}",
            [
             "First, rewinding head to replay your work on top of it...",
             "HEAD is now at 12345679",

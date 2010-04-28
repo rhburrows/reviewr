@@ -21,7 +21,7 @@ module Reviewr
     end
 
     def rebase_review
-      git.rebase("#{remote_repo}/master", review_branch)
+      git.rebase(current_branch, review_branch)
     end
 
     def fetch_review_branch

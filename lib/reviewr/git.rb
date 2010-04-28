@@ -74,7 +74,7 @@ module Reviewr
     end
 
     def cherry_pick(commit)
-      execute("git cherry-pick #{commit}")
+      execute("git cherry-pick -s #{commit}")
     end
 
     def log(n)

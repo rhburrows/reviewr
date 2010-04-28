@@ -36,7 +36,8 @@ module Reviewr
     describe "#rebase_review" do
       it "rebases the review branch on the remote master" do
         git.stub(:remote_repo).and_return('remote')
-        git.should_receive(:rebase).with('remote/master', 'review')
+        git.stub(:current_branch).and_return('master')
+        git.should_receive(:rebase).with('master', 'review')
         project.stub(:review_branch).and_return('review')
         project.rebase_review
       end

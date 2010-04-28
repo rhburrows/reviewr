@@ -142,7 +142,7 @@ module Reviewr
 
     describe "#cherry_pick" do
       it "calls cherry-pick with the passed commit" do
-        git.should_receive(:execute).with('git cherry-pick commit')
+        git.should_receive(:execute).with('git cherry-pick -s commit')
         git.cherry_pick('commit')
       end
     end
