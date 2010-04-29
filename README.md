@@ -6,7 +6,28 @@ git and github.com for version control.
 # Installation
     gem install reviewr
 
-# Requesting a code review
+# Usage
+
+Reviewr is designed to simplify code reviews for projects that revolve
+around a single 'master' repository with multiple contributors (i.e. a
+project that is hosted on github). It does this by providing a default
+work-flow that all developers can use.
+
+The general work-flow (at the moment) is:
+
+1. The coder issues a code review request through the 'request'
+command.
+2. The reviewer(s) review the code and comment on it through github
+3. If the code is good enough to merge it can be pulled into the
+master branch through the 'accept' command
+
+While this documentation is up to date (as of version 0.2.0) I am
+still experimenting with an ideal work-flow for these type of code
+reviews, so this code is subject to heavy change. If you have any
+suggestions send me an email or comment in the issue tracker as I
+would love further opinions.
+
+## Requesting a code review
     reviewr request <email>
 This will result in the following actions:
 
@@ -17,7 +38,7 @@ This will result in the following actions:
   The email will include a link to Github's compare view for the
   changes
 
-# Accepting changes from a code review
+## Accepting changes from a code review
     reviewr accept <branch_name>
 This will result in the following actions:
 
@@ -29,39 +50,23 @@ This will result in the following actions:
 * Send an email to the requester of the review saying the changes have been
   merged
 
-## Limitations
+# Contributing
 
-* Email can only be sent from a Gmail (or Google Apps for my domain)
-  address
+## Reporting Bugs
+
+Bugs are being managed using Github's issue tracking
+
+http://github.com/rhburrows/reviewr/issues
+
+## Contributing Code
+
+Just fork the project on github and submit a pull request
+
+http://github.com/rhburrows/reviewr
 
 # TODO
 
-## Finish out the basic workflow
-
-General workflow goes something like this:
-
-Code, code, code. Decide changes are ready for review and run `reviewr
-request email@site.com`. This causes reviewr to:
-
-* create a new branch with the name `review_0f38ef31` where `0f38ef31`
-is the SHA of the current commit
-* Add a commit to the branch with metadata about the request
-(requester name/email etc). 
-* push the branch to the origin repository
-* generate a github review url from the current head to the pushed
-review branch
-* Send an email to `email@site.com` with a nice message and the url
-
-The reviewer then looks over the code on github and comments as
-necessary. If the code is acceptable the reviewer runs `reviewr accept
-review_0f38ef31`. reviewr will then:
-
-* fetch the review branch
-* attempt to merge the reviewed branch into the master
-* if it fails an error will be raised and execution will stop
-* if is succeeds the merged master will be pushed
-* the remote review branch will be deleted.
-* an email will be sent to the review requester saying the code was accepted
+## Add a reject code review command
 
 If the code the reviewer is checking is not acceptable, upon finishing
 comments on github the reviewer can run `reviewr reject
@@ -70,3 +75,9 @@ review_0f38ef31`. reviewr will:
 * Re-generate the github url for comparing to the current master
 * Send an email to the requester of the review saying the code has
 been rejected and to please see the comments on the linked page
+
+# Limitations
+
+* Email can only be sent from a Gmail (or Google Apps for my domain)
+  address
+* Only tested with git 1.7.0
