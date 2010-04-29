@@ -73,7 +73,7 @@ module Reviewr
     def requester_email
       msg = git.log(1)
       if msg
-        m = msg.match(/^requested_by: ([^\s]+)/)
+        m = msg.match(/requested_by: ([^\s]+)/)
         m && m[1]
       end
     end

@@ -143,10 +143,10 @@ module Reviewr
                                     "Author: Cody McCoder",
                                     "Date:   Tue Apr 27 22:35:55 2010 -0700",
                                     "",
-                                    "Code Review Request",
-                                    "===================",
-                                    "requested_by: coder@site.com",
-                                    "requested_from: reviewer@site.com"
+                                    "   Code Review Request",
+                                    "   ===================",
+                                    "   requested_by: coder@site.com",
+                                    "   requested_from: reviewer@site.com"
                                   ].join("\n"))
         project.requester_email.should == "coder@site.com"
       end
