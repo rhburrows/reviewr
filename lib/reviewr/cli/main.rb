@@ -8,6 +8,10 @@ module Reviewr
 
       def initialize(args, input = STDIN, output = STDOUT)
         @command = args.shift
+        if @command == "-p"
+          Git.instance = PretendGit.new(output)
+          @command = args.shift
+        end
         @arguments = args
         @input, @output = input, output
       end

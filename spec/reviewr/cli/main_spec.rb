@@ -3,14 +3,42 @@ require 'spec_helper'
 module Reviewr::CLI
   describe Main do
     describe "#initialize" do
-      it "takes the first argument as the command name" do
-        main = Main.new(["a", "b"])
-        main.command.should == "a"
+      context "-p is not specified" do
+        it "takes the first argument as the command name" do
+          main = Main.new(["a", "b"])
+          main.command.should == "a"
+        end
+
+        it "takes the rest of the arguments as the arguments" do
+          main = Main.new(["a", "b", "c"])
+          main.arguments.should == ["b", "c"]
+        end
       end
 
-      it "takes the rest of the arguments as the arguments" do
-        main = Main.new(["a", "b", "c"])
-        main.arguments.should == ["b", "c"]
+      context "-p is specified" do
+        it "Creates a pretend Git" do
+          input = mock("input")
+          output = mock("output")
+          Reviewr::PretendGit.should_receive(:new).with(output)
+          Main.new(["-p", "a", "b"], input, output)
+        end
+
+        it "Sets the pretend Git as the instance" do
+          pretend_git = mock("Pretend Git")
+          Reviewr::PretendGit.stub(:new).and_return(pretend_git)
+          Main.new(["-p"])
+          Reviewr::Git.instance.should == pretend_git
+        end
+
+        it "takes the second argument as the command name" do
+          main = Main.new(["-p", "a", "b"])
+          main.command.should == "a"
+        end
+
+        it "takes the rest of the arguments as the arguments" do
+          main = Main.new(["-p", "a", "b"])
+          main.arguments.should == ["b"]
+        end
       end
     end
 

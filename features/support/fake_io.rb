@@ -33,6 +33,10 @@ class Output
   def print(message)
     messages << message
   end
+
+  def puts(message)
+    print("#{message}\n")
+  end
 end
 
 def output

@@ -19,6 +19,10 @@ Then /^reviewr should create a new branch called "([^\"]*)"$/ do |name|
   git_executed?("git branch #{name} master").should be_true
 end
 
+Then /^reviewr should not create a new branch called "([^\"]*)"$/ do |name|
+  git_executed?("git branch #{name} master").should be_false
+end
+
 Then /^reviewr should create a commit with message:$/ do |msg|
   last_commit_msg.should == msg
 end

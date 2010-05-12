@@ -32,7 +32,7 @@ When /^I run a reviewr command that requires email$/ do
 end
 
 Then /^I should see "([^\"]*)"$/ do |msg|
-  output.messages.should include(msg)
+  output.messages.map(&:chomp).should include(msg.chomp)
 end
 
 Then /^the email should be set to "([^\"]*)"$/ do |email|
