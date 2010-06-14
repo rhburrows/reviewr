@@ -37,7 +37,8 @@ module Reviewr
         end
 
         it "creates a working branch for the reviewed code" do
-          project.should_receive(:create_review_branch).with("origin/review")
+          project.should_receive(:remote_repo).and_return("some_other_repo")
+          project.should_receive(:create_review_branch).with("some_other_repo/review")
           accept.arguments = ["review"]
           accept.call
         end
