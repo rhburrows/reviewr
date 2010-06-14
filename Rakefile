@@ -30,6 +30,8 @@ rescue LoadError
   end
 end
 
+task :default => [:spec, :cucumber]
+
 desc 'Build the reviewr gem'
 task :build do
   system "gem build reviewr.gemspec"
