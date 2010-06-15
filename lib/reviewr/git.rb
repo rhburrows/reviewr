@@ -12,12 +12,20 @@ module Reviewr
 
     attr_writer :remote_repo
 
-    def remote_repo
-      @remote_repo ||= "origin"
+    def last_commit_sha
+      execute(%(git show --pretty=format:"%H" HEAD)).split("\n").first
     end
 
-    def last_commit
-      execute('git show --pretty=format:"%H" HEAD').split("\n")[0]
+    def last_commit_subject
+      execute(%(git show --pretty=format:"%s" HEAD^)).split("\n").first
+    end
+
+    def last_commit_body
+      execute(%(git show --pretty=format:"%b:::::" HEAD^)).split(":::::").first
+    end
+
+    def remote_repo
+      @remote_repo ||= "origin"
     end
 
     def rebase(base, branch)

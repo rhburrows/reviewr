@@ -41,7 +41,15 @@ module Reviewr
     end
 
     def review_sha
-      @review_sha ||= git.last_commit.slice(0, 8)
+      @review_sha ||= git.last_commit_sha.slice(0, 8)
+    end
+
+    def review_subject
+      @review_subject ||= git.last_commit_subject
+    end
+
+    def review_body
+      @review_body ||= git.last_commit_body
     end
 
     def master_sha

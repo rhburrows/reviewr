@@ -7,7 +7,7 @@ module Reviewr
 
     describe "#review_sha" do
       it "returns the first 8 characters of the last commit" do
-        git.stub!(:last_commit).and_return('12345678123e324')
+        git.stub(:last_commit_sha).and_return('12345678123e324')
         project.review_sha.should == '12345678'
       end
     end

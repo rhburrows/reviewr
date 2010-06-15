@@ -8,16 +8,32 @@ module Reviewr
       git.stub(:execute)
     end
 
-    describe "#last_commit" do
+    describe "#last_commit_sha" do
       it "shells out to git to the get the hash of the last commit" do
         git.stub!(:execute).and_return("")
         git.should_receive(:execute).with('git show --pretty=format:"%H" HEAD')
-        git.last_commit
+        git.last_commit_sha
       end
 
       it "cuts out the first line (sha)" do
-        git.stub!(:execute).and_return("12345678\nblah\nblah\nblah")
-        git.last_commit.should == "12345678"
+        git.stub!(:execute).and_return("12345678")
+        git.last_commit_sha.should == "12345678"
+      end
+    end
+
+    describe "#last_commit_subject" do
+      it "shells out to git to the get the subject of the last commit" do
+        git.stub!(:execute).and_return("")
+        git.should_receive(:execute).with('git show --pretty=format:"%s" HEAD^')
+        git.last_commit_subject
+      end
+    end
+
+    describe "#last_commit_body" do
+      it "shells out to git to the get the body of the last commit" do
+        git.stub!(:execute).and_return("")
+        git.should_receive(:execute).with('git show --pretty=format:"%b:::::" HEAD^')
+        git.last_commit_body
       end
     end
 

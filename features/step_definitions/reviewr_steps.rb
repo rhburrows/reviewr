@@ -36,6 +36,18 @@ Then /^reviewr should send an email to "([^\"]*)" with body:$/ do |email, body|
   Pony.sent[:body].should == body
 end
 
+Then /^reviewr should send an email to "([^\"]*)"$/ do |email|
+  Pony.sent[:to].should == email
+end
+
+Then /^the body of the sent email should be:$/ do |body|
+  Pony.sent[:body].should == body
+end
+
+Then /^the subject of the sent email should be: "(.*?)"$/ do |subject|
+  Pony.sent[:subject].should == subject
+end
+
 Then /^reviewr should abort the acceptance$/ do
   git_executed?("git rebase --abort").should be_true
 end

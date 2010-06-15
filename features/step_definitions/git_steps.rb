@@ -18,7 +18,15 @@ Given /^my git email is "([^\"]*)"$/ do |email|
 end
 
 Given /^the last commit was "([^\"]*)"$/ do |commit|
-  mock_git('git show --pretty=format:"%H" HEAD', commit)
+  mock_git(%(git show --pretty=format:"%H" HEAD), commit)
+end
+
+Given /^the last commit subject was "([^\"]*)"$/ do |commit|
+  mock_git(%(git show --pretty=format:"%s" HEAD^), commit)
+end
+
+Given /^the last commit body was "([^\"]*)"$/ do |commit|
+  mock_git(%(git show --pretty=format:"%b:::::" HEAD^), commit + ":::::")
 end
 
 Given /^the origin is at "([^\"]*)"$/ do |location|

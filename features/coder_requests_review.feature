@@ -30,22 +30,24 @@ Feature: Coder Requests Code Review
     When I run "reviewr request reviewer@site.com"
     Then reviewr should push "review_12345678" to origin
 
-  Scenario: Send an email with a github compare URL
+  Scenario: Send an email with commit info and a github compare URL
     Given the last commit was "12345678123456781234567812345678"
+    And the last commit subject was "Added subject to reviewr email"
+    And the last commit body was "Now you will see commit info in the review request"
     And the origin is at "git@github.com:rhburrows/reviewr.git"
     And the origin master commit is "87654321876543218765432187654321"
     When I run "reviewr request reviewer@site.com"
-    Then reviewr should send an email to "reviewer@site.com" with body:
+    Then reviewr should send an email to "reviewer@site.com"
+     And the subject of the sent email should be: "Code review request: Added subject to reviewr email"
+     And the body of the sent email should be:
     """
-    Hi,
-
-    Could you please code review and comment on the following changes:
+    Now you will see commit info in the review request
 
     http://github.com/rhburrows/reviewr/compare/87654321...12345678
 
-    If you find the changes acceptable please run:
+    Accept:
       reviewr accept review_12345678
-    If you think more work needs to be done please run:
+    Reject:
       reviewr reject review_12345678
 
     Thanks!

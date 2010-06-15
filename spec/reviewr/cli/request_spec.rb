@@ -80,15 +80,13 @@ requested_from: reviewer@site.com
 
       describe "#email_body" do
         BODY= <<-END
-Hi,
-
-Could you please code review and comment on the following changes:
+The commit body is in the email
 
 compare url
 
-If you find the changes acceptable please run:
+Accept:
   reviewr accept review_12345678
-If you think more work needs to be done please run:
+Reject:
   reviewr reject review_12345678
 
 Thanks!
@@ -97,6 +95,7 @@ Thanks!
         it "generates the email body based on the project" do
           request.stub(:compare_url).and_return("compare url")
           project.stub(:review_branch).and_return("review_12345678")
+          project.stub(:review_body).and_return("The commit body is in the email")
           request.email_body.should == BODY
         end
       end

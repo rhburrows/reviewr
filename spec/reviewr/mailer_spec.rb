@@ -14,11 +14,12 @@ module Reviewr
         mailer.project.stub(:to).and_return('to')
         mailer.project.stub(:email_server).and_return('host')
         mailer.project.stub(:email_password).and_return('p')
+        mailer.project.stub(:review_subject).and_return('Commit subject')
         Pony.should_receive(:mail).with(
           hash_including(:from => 'from',
                          :to   => 'to',
                          :body => 'body',
-                         :subject => 'Code review request from from',
+                         :subject => 'Code review request: Commit subject',
                          :via  => :smtp,
                          :smtp => {
                            :host     => 'smtp.gmail.com',
