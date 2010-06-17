@@ -1,3 +1,15 @@
+=== 0.2.1 / 2010-06-17
+
+* 1 minor enhancement:
+
+  * Change the review request email to show information about the
+    requested review from the commit message
+  * Default rake task to run all the tests
+
+* 1 Bug fix:
+
+  * Let accept use remote repositories other than 'origin'
+
 === 0.2.0 / 2010-04-28
 
 * 1 major enhancement:
