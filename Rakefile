@@ -7,9 +7,17 @@ begin
   require 'cucumber'
   require 'cucumber/rake/task'
 
-  Cucumber::Rake::Task.new(:cucumber) do |t|
-    t.cucumber_opts = "--format pretty"
+  namespace :cucumber do
+    Cucumber::Rake::Task.new(:default) do |t|
+      t.cucumber_opts = "--format pretty -t ~@wip"
+    end
+
+    Cucumber::Rake::Task.new(:wip) do |t|
+      t.cucumber_opts = "--format pretty -t @wip"
+    end
   end
+
+  task :cucumber => "cucumber:default"
 rescue LoadError
   desc 'Cucumber rake task not available'
   task :cucumber do
