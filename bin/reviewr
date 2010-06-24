@@ -1,6 +1,0 @@
-#!/usr/bin/ruby
-
-$LOAD_PATH << 'lib'
-require 'reviewr'
-
-Reviewr::CLI::Main.new(ARGV).run
