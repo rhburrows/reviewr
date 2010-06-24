@@ -11,8 +11,8 @@ describe Reviewr::CodeReview do
     end
 
     it "returns a list of code reviews - one per ref" do
-      refs = [ mock("Ref 1", :name => 'one', :commit => '1234'),
-               mock("Ref 2", :name => 'two', :commit => '4321')]
+      refs = [mock("Ref 1", :name => 'one', :commit => mock('1',:id => '1234')),
+              mock("Ref 2", :name => 'two', :commit => mock('2',:id => '4321'))]
       Reviewr::CodeReview::Review.stub(:find_all).and_return(refs)
       Reviewr::CodeReview.all.map{ |c| [c.name, c.sha] }.should ==
         [ ['one', '1234'], ['two', '4321'] ]
@@ -22,15 +22,19 @@ describe Reviewr::CodeReview do
   describe "#create_from_branch" do
     before do
       # This is a lot of bad mocking...
-      branch = mock("branch head", :name => "branch", :commit => "123456789")
-      head = mock("current head", :name => "current", :commit => "987654321")
+      branch = mock("branch head",
+                    :name => "branch",
+                    :commit => mock("c1", :id => "123456789"))
+      head = mock("current head",
+                  :name => "current",
+                  :commit => "987654321")
       Reviewr.repo.stub(:get_head).and_return(branch)
       Reviewr.repo.stub(:head).and_return(head)
     end
 
     it "writes a blob with both commits to the index" do
       index = mock("Index")
-      index.should_receive(:write_blob).with("987654321\n123456789")
+      index.should_receive(:write_blob).with("123456789\n987654321")
       Reviewr::CodeReview.create_from_branch('branch', index)
     end
 
@@ -54,7 +58,7 @@ describe Reviewr::CodeReview do
   end
 
   describe "#commit" do
-    let(:index) { mock("Index", :commit => true) }
+    let(:index) { mock("Index", :write_tree => true, :tree => @tree) }
     let(:review) { Reviewr::CodeReview.new('review_name', '1234', index) }
 
     before do
@@ -72,7 +76,8 @@ describe Reviewr::CodeReview do
     end
 
     it "commits the index" do
-      review.index.should_receive(:commit).with('code review request')
+      @tree = mock("Tree")
+      review.index.should_receive(:write_tree).with(@tree)
       review.commit
     end
   end

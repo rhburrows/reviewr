@@ -4,7 +4,6 @@ Feature: Coder users request command to request a code review
   As a coder
   I want to send a code review request to another member of my team
 
-  @wip
   Scenario: Requesting a new code review
     Given I'm on branch "updates"
     And I have commits past branch "master"
