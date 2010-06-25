@@ -14,7 +14,7 @@ class Reviewr < Thor
         from = Reviewr.repo.get_head(branch).commit.id
         index = index || Grit::Index.new(Reviewr.repo)
         sha = index.write_blob("#{from}\n#{to}")
-        name = branch_name.nil? ? "review_#{sha}" : branch_name
+        name = branch_name.nil? ? "review_#{sha.slice(0,8)}" : branch_name
 
         CodeReview.new(name, sha, index)
       end
