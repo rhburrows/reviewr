@@ -47,13 +47,6 @@ class Reviewr < Thor
     end
 
     class Review < Grit::Ref
-      class << self
-        protected
-
-        def prefix
-          "reviews"
-        end
-      end
     end
   end
 end

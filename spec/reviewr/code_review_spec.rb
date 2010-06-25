@@ -34,7 +34,8 @@ describe Reviewr::CodeReview do
 
     it "writes a blob with both commits to the index" do
       index = mock("Index")
-      index.should_receive(:write_blob).with("123456789\n987654321")
+      index.should_receive(:write_blob).with("123456789\n987654321").
+        and_return('')
       Reviewr::CodeReview.create_from_branch('branch', nil, index)
     end
 

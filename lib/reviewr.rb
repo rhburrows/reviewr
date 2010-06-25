@@ -11,7 +11,7 @@ class Reviewr < Thor
     end
 
     def ref_dir
-      dir = "#{repo.path}/reviews"
+      dir = "#{repo.path}/refs/reviews"
       unless File.exists?(dir)
         FileUtils.mkdir_p(dir)
       end

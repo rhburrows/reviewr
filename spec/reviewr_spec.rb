@@ -19,14 +19,14 @@ describe Reviewr do
   describe ".ref_dir" do
     it "adds '/refs/reviews' to the repo's path" do
       Reviewr.repo = mock("Repo", :path => "path")
-      Reviewr.ref_dir.should == "path/reviews"
+      Reviewr.ref_dir.should == "path/refs/reviews"
     end
 
     it "creates the directory if it doesn't exist" do
       Reviewr.repo = mock("Repo", :path => '.git')
-      FileUtils.rmdir('.git/reviews') if File.exists?('.git/reviews')
+      FileUtils.rmdir('.git/refs/reviews') if File.exists?('.git/refs/reviews')
       Reviewr.ref_dir
-      File.exists?('.git/reviews').should be_true
+      File.exists?('.git/refs/reviews').should be_true
     end
   end
 
