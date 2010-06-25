@@ -20,7 +20,9 @@ class Reviewr < Thor
   end
 
   desc "request BRANCH_NAME", "Request a code review compared to BRANCH_NAME"
+  method_options :name => ""
   def request(branch)
-    CodeReview.create_from_branch(branch).commit
+    branch_name = options[:name] == "" ? nil : options[:name]
+    CodeReview.create_from_branch(branch, branch_name).commit
   end
 end

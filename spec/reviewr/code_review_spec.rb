@@ -35,25 +35,31 @@ describe Reviewr::CodeReview do
     it "writes a blob with both commits to the index" do
       index = mock("Index")
       index.should_receive(:write_blob).with("123456789\n987654321")
-      Reviewr::CodeReview.create_from_branch('branch', index)
+      Reviewr::CodeReview.create_from_branch('branch', nil, index)
     end
 
     it "returns a new code review object with the written index" do
       index = mock("Index", :write_blob => '')
-      review = Reviewr::CodeReview.create_from_branch('branch', index)
+      review = Reviewr::CodeReview.create_from_branch('branch', nil, index)
       review.index.should == index
     end
 
     it "returns a new code review object with the sha of the blob" do
       index = mock("Index", :write_blob => '555f')
-      review = Reviewr::CodeReview.create_from_branch('branch', index)
+      review = Reviewr::CodeReview.create_from_branch('branch', nil, index)
       review.sha.should == '555f'
     end
 
     it "returns a new code review object with the name review_<blobsha>" do
       index = mock("Index", :write_blob => '555f')
-      review = Reviewr::CodeReview.create_from_branch('branch', index)
+      review = Reviewr::CodeReview.create_from_branch('branch', nil, index)
       review.name.should == 'review_555f'
+    end
+
+    it "sets the code review name to the value passed if it is supplied" do
+      index = mock("Index", :write_blob => '555f')
+      review = Reviewr::CodeReview.create_from_branch('branch', 'branch', index)
+      review.name.should == 'branch'
     end
   end
 

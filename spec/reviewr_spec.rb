@@ -37,13 +37,21 @@ describe Reviewr do
     end
 
     it "creates a code review request with the branch name" do
-      Reviewr::CodeReview.should_receive(:create_from_branch).with('branch')
+      Reviewr::CodeReview.should_receive(:create_from_branch).
+        with('branch', nil)
       Reviewr.new.request('branch')
     end
 
     it "commits the code review request" do
       @review.should_receive(:commit)
       Reviewr.new.request("branch")
+    end
+
+    it "passes the branch name if it isn't empty" do
+      reviewr = Reviewr.new([], { :name => 'my-branch-name' })
+      Reviewr::CodeReview.should_receive(:create_from_branch).
+        with('branch', 'my-branch-name')
+      reviewr.request('branch')
     end
   end
 end

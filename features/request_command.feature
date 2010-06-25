@@ -10,3 +10,10 @@ Feature: Coder users request command to request a code review
     When I run "reviewr request master"
     Then a code review should be created
     And it should be the difference from "master" to "updates"
+
+  Scenario: Requesting a new code review with a specific name
+    Given I'm on branch "updates"
+    And I have commits past branch "master"
+    When I run "reviewr request master --name=bf-testing"
+    Then a code review should be created
+    And it should be called "bf-testing"

@@ -25,3 +25,7 @@ Then /^it should be the difference from "([^\"]*)" to "([^\"]*)"$/ do |from, to|
   @review.from.should == from_sha
   @review.to.should == to_sha
 end
+
+Then /^it should be called "([^\"]*)"$/ do |name|
+  @review.name.should == name
+end
