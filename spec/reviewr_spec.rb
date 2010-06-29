@@ -23,10 +23,10 @@ describe Reviewr do
     end
 
     it "creates the directory if it doesn't exist" do
-      Reviewr.repo = mock("Repo", :path => '.git')
-      FileUtils.rmdir('.git/refs/reviews') if File.exists?('.git/refs/reviews')
+      Reviewr.repo = mock("Repo", :path => 'tmp')
+      FileUtils.rmdir('tmp/refs/reviews') if File.exists?('tmp/refs/reviews')
       Reviewr.ref_dir
-      File.exists?('.git/refs/reviews').should be_true
+      File.exists?('tmp/refs/reviews').should be_true
     end
   end
 
