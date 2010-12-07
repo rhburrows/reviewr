@@ -1,5 +1,11 @@
 # Reviewr: Simple code review
 
+I am no longer working on Reviewr as Github released some code tools
+that are better integrated into the site and do everything that I
+wanted for this project. It worked well enough for my purposes at the
+time, but there are still bugs and missing features that I will not be
+completing because we have switched to using Github's tools.
+
 Reviewr is an application to simplify code review for projects using
 git and github.com for version control.
 
